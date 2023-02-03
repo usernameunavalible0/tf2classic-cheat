@@ -1,5 +1,6 @@
 #pragma once
 #include <Windows.h>
+#include "../Includes/Includes.h"
 
 //GetInterface
 template <typename T>
@@ -19,5 +20,5 @@ static T* GetInterface(const char* name, const char* library)
 namespace I {
 	inline void* Client = nullptr;
 	inline void* ClientMode = nullptr;
-	inline void* EngineVGui = nullptr;
+	inline IEngineVGui* EngineVGui = nullptr;
 }

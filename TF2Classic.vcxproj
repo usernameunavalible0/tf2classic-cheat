@@ -159,6 +159,7 @@
     <ClInclude Include="ext\MinHook\trampoline.h" />
     <ClInclude Include="src\Entry\Entry.h" />
     <ClInclude Include="src\Hooks\Hooks.h" />
+    <ClInclude Include="src\SDK\Includes\ienginevgui.h" />
     <ClInclude Include="src\SDK\Includes\Includes.h" />
     <ClInclude Include="src\SDK\Includes\in_buttons.h" />
     <ClInclude Include="src\SDK\Includes\usercmd.h" />

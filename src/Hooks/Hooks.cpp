@@ -6,13 +6,13 @@ void H::Initialize()
 
 	//Define Hooks Here
 	MH_CreateHook(
-		(*static_cast<void***>(I::ClientMode))[21],
+		(*reinterpret_cast<void***>(I::ClientMode))[21],
 		&CreateMoveHook,
 		reinterpret_cast<void**>(&CreateMoveOriginal)
 	);
 
 	MH_CreateHook(
-		(*static_cast<void***>(I::EngineVGui))[13],
+		(*reinterpret_cast<void***>(I::EngineVGui))[13],
 		&PaintHook,
 		reinterpret_cast<void**>(&PaintOriginal)
 	);
@@ -40,4 +40,9 @@ bool __stdcall H::CreateMoveHook(float frameTime, CUserCmd* cmd)
 void __stdcall H::PaintHook(int mode)
 {
 	PaintOriginal(I::EngineVGui, mode);
+
+	if (mode & PaintMode_t::PAINT_UIPANELS)
+	{
+		//Start Drawing
+	}
 }

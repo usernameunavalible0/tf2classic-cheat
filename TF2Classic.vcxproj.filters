@@ -89,5 +89,8 @@
     <ClInclude Include="src\Hooks\Hooks.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\SDK\Includes\ienginevgui.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
