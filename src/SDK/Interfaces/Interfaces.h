@@ -1,5 +1,5 @@
 #pragma once
-#include <Windows.h>
+#include "../../Util/Util.h"
 #include "../Includes/Includes.h"
 
 //GetInterface
@@ -21,4 +21,5 @@ namespace I {
 	inline void* Client = nullptr;
 	inline void* ClientMode = nullptr;
 	inline IEngineVGui* EngineVGui = nullptr;
+	inline vgui::ISurface* Surface = nullptr;
 }

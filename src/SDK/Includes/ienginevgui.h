@@ -12,6 +12,7 @@
 #ifdef _WIN32
 #pragma once
 #endif
+#include "ISurface.h"
 
 // Forward declarations.
 namespace vgui

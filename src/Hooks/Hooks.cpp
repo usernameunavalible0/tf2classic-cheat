@@ -39,10 +39,18 @@ bool __stdcall H::CreateMoveHook(float frameTime, CUserCmd* cmd)
 
 void __stdcall H::PaintHook(int mode)
 {
+	static auto StartDrawing = reinterpret_cast<void(__thiscall*)(void*)>(g_Pattern.Find("vguimatsurface.dll", "55 8B EC 64 A1 ? ? ? ? 6A FF 68 ? ? ? ? 50 64 89 25 ? ? ? ? 83 EC 14"));
+	static auto FinishDrawing = reinterpret_cast<void(__thiscall*)(void*)>(g_Pattern.Find("vguimatsurface.dll", "55 8B EC 6A FF 68 ? ? ? ? 64 A1 ? ? ? ? 50 64 89 25 ? ? ? ? 51 56 6A 00"));
+
 	PaintOriginal(I::EngineVGui, mode);
 
 	if (mode & PaintMode_t::PAINT_UIPANELS)
 	{
 		//Start Drawing
+		StartDrawing(I::Surface);
+		{
+			//Draw Here
+		}
+		FinishDrawing(I::Surface);
 	}
 }

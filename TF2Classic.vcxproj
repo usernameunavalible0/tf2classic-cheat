@@ -147,6 +147,8 @@
     <ClCompile Include="src\DllMain.cpp" />
     <ClCompile Include="src\Entry\Entry.cpp" />
     <ClCompile Include="src\Hooks\Hooks.cpp" />
+    <ClCompile Include="src\SDK\DrawManager\DrawManager.cpp" />
+    <ClCompile Include="src\Util\Pattern\Pattern.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ext\MinHook\buffer.h" />
@@ -159,13 +161,18 @@
     <ClInclude Include="ext\MinHook\trampoline.h" />
     <ClInclude Include="src\Entry\Entry.h" />
     <ClInclude Include="src\Hooks\Hooks.h" />
+    <ClInclude Include="src\SDK\DrawManager\DrawManager.h" />
+    <ClInclude Include="src\SDK\Includes\Color.h" />
     <ClInclude Include="src\SDK\Includes\ienginevgui.h" />
     <ClInclude Include="src\SDK\Includes\Includes.h" />
     <ClInclude Include="src\SDK\Includes\in_buttons.h" />
+    <ClInclude Include="src\SDK\Includes\ISurface.h" />
     <ClInclude Include="src\SDK\Includes\usercmd.h" />
     <ClInclude Include="src\SDK\Includes\vector.h" />
     <ClInclude Include="src\SDK\Interfaces\Interfaces.h" />
     <ClInclude Include="src\SDK\SDK.h" />
+    <ClInclude Include="src\Util\Pattern\Pattern.h" />
+    <ClInclude Include="src\Util\Util.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
