@@ -10,6 +10,8 @@
 #pragma once
 #endif
 
+#include "vector.h"
+
 class FColor
 {
 public:

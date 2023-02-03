@@ -163,6 +163,7 @@
     <ClInclude Include="src\Hooks\Hooks.h" />
     <ClInclude Include="src\SDK\DrawManager\DrawManager.h" />
     <ClInclude Include="src\SDK\Includes\Color.h" />
+    <ClInclude Include="src\SDK\Includes\globalvars_base.h" />
     <ClInclude Include="src\SDK\Includes\ienginevgui.h" />
     <ClInclude Include="src\SDK\Includes\Includes.h" />
     <ClInclude Include="src\SDK\Includes\in_buttons.h" />

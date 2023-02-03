@@ -1,6 +1,10 @@
 #pragma once
-#include "in_buttons.h"
 struct Vector
 {
     float x, y, z;
+};
+
+struct Vector2D
+{
+    float x, y;
 };

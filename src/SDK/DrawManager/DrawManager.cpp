@@ -1,5 +1,14 @@
 #include "DrawManager.h"
 
+void CDraw::String(const size_t& font, int x, int y, const Color& clr, const short align, const char* const str, ...)
+{
+}
+
+void CDraw::String(const size_t& font, int x, int y, const Color& clr, const short align, const wchar_t* const str, ...)
+{
+
+}
+
 void CDraw::Line(const int x, const int y, const int x1, const int y1, const Color& clr)
 {
 	I::Surface->DrawSetColor(clr);
