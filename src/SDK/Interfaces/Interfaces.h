@@ -19,4 +19,5 @@ static T* GetInterface(const char* name, const char* library)
 namespace I {
 	inline void* Client = nullptr;
 	inline void* ClientMode = nullptr;
+	inline void* EngineVGui = nullptr;
 }

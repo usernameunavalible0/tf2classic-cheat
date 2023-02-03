@@ -11,6 +11,12 @@ void H::Initialize()
 		reinterpret_cast<void**>(&CreateMoveOriginal)
 	);
 
+	MH_CreateHook(
+		(*static_cast<void***>(I::EngineVGui))[13],
+		&PaintHook,
+		reinterpret_cast<void**>(&PaintOriginal)
+	);
+
 	MH_EnableHook(MH_ALL_HOOKS);
 }
 
@@ -29,4 +35,9 @@ bool __stdcall H::CreateMoveHook(float frameTime, CUserCmd* cmd)
 	//Do Stuff
 
 	return false;
+}
+
+void __stdcall H::PaintHook(int mode)
+{
+	PaintOriginal(I::EngineVGui, mode);
 }
