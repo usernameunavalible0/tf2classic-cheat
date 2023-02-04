@@ -50,6 +50,7 @@ void __stdcall H::PaintHook(int mode)
 		StartDrawing(I::Surface);
 		{
 			//Draw Here
+			G::Draw.String(EFonts::DEBUG, 5, 5, { 204, 204, 204, 255 }, TXT_DEFAULT, L"Team Fortress 2: Classic");
 		}
 		FinishDrawing(I::Surface);
 	}
