@@ -164,7 +164,14 @@
     <ClInclude Include="src\SDK\DrawManager\DrawManager.h" />
     <ClInclude Include="src\SDK\Includes\Color.h" />
     <ClInclude Include="src\SDK\Includes\globalvars_base.h" />
+    <ClInclude Include="src\SDK\Includes\icliententity.h" />
+    <ClInclude Include="src\SDK\Includes\icliententitylist.h" />
+    <ClInclude Include="src\SDK\Includes\iclientnetworkable.h" />
+    <ClInclude Include="src\SDK\Includes\iclientrenderable.h" />
+    <ClInclude Include="src\SDK\Includes\iclientthinkable.h" />
+    <ClInclude Include="src\SDK\Includes\iclientunknown.h" />
     <ClInclude Include="src\SDK\Includes\ienginevgui.h" />
+    <ClInclude Include="src\SDK\Includes\ihandleentity.h" />
     <ClInclude Include="src\SDK\Includes\Includes.h" />
     <ClInclude Include="src\SDK\Includes\in_buttons.h" />
     <ClInclude Include="src\SDK\Includes\ISurface.h" />

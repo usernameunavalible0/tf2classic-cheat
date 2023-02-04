@@ -1,5 +1,5 @@
 #pragma once
-#include "in_buttons.h"
+#include "icliententitylist.h"
 
 class CUserCmd
 {
