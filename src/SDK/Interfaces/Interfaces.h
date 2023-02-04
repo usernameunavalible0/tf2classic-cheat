@@ -24,4 +24,5 @@ namespace I {
 	inline vgui::ISurface* Surface = nullptr;
 	inline CGlobalVarsBase* GlobalVars = nullptr;
 	inline IClientEntityList* ClientEntityList = nullptr;
+	inline IVEngineClient* EngineClient = nullptr;
 }

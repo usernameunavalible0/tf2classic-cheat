@@ -14,4 +14,16 @@ namespace H
 	using Paint = void(__thiscall*)(void*, int);
 	static Paint PaintOriginal = nullptr;
 	void __stdcall PaintHook(int mode);
+
+	using LevelInitPostEntity = void(__thiscall*)(void*);
+	static LevelInitPostEntity PostEntityOriginal = nullptr;
+	void __stdcall PostEntityHook();
+
+	using LevelShutdown = void(__thiscall*)(void*);
+	static LevelShutdown LevelShutdownOriginal = nullptr;
+	void __stdcall LevelShutdownHook();
+
+	using FrameStageNotify = void(__thiscall*)(void*, ClientFrameStage_t);
+	static FrameStageNotify FrameStageNotifyOriginal = nullptr;
+	void __stdcall FrameStageNotifyHook(ClientFrameStage_t frameStage);
 }

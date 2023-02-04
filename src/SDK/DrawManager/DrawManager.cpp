@@ -1,5 +1,7 @@
 #include "DrawManager.h"
 
+inline int	V_wcslen(const wchar_t* pwch) { return (int)wcslen(pwch); }
+
 void CDraw::Initialize(const std::vector<CFont>& fonts)
 {
 	for (const auto& Font : fonts)
@@ -53,7 +55,7 @@ void CDraw::String(const size_t& font, int x, int y, const Color& clr, const sho
 	I::Surface->DrawSetTextPos(x, y);
 	I::Surface->DrawSetTextFont(fnt);
 	I::Surface->DrawSetTextColor(clr);
-	I::Surface->DrawPrintText(wstr, (int)wcslen(wstr));
+	I::Surface->DrawPrintText(wstr, V_wcslen(wstr));
 }
 
 void CDraw::String(const size_t& font, int x, int y, const Color& clr, const short align, const wchar_t* const str, ...)
@@ -88,7 +90,7 @@ void CDraw::String(const size_t& font, int x, int y, const Color& clr, const sho
 	I::Surface->DrawSetTextPos(x, y);
 	I::Surface->DrawSetTextFont(fnt);
 	I::Surface->DrawSetTextColor(clr);
-	I::Surface->DrawPrintText(wstr, (int)wcslen(wstr));
+	I::Surface->DrawPrintText(wstr, V_wcslen(wstr));
 }
 
 void CDraw::Line(const int x, const int y, const int x1, const int y1, const Color& clr)

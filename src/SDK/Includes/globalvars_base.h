@@ -11,7 +11,7 @@
 #pragma once
 #endif
 
-#include "Color.h"
+#include "cdll_int.h"
 
 class CSaveRestoreData;
 

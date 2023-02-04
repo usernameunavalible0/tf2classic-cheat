@@ -17,6 +17,24 @@ void H::Initialize()
 		reinterpret_cast<void**>(&PaintOriginal)
 	);
 
+	MH_CreateHook(
+		(*reinterpret_cast<void***>(I::Client))[6],
+		&PostEntityHook,
+		reinterpret_cast<void**>(&PostEntityOriginal)
+	);
+
+	MH_CreateHook(
+		(*reinterpret_cast<void***>(I::Client))[7],
+		&LevelShutdownHook,
+		reinterpret_cast<void**>(&LevelShutdownOriginal)
+	);
+
+	MH_CreateHook(
+		(*reinterpret_cast<void***>(I::Client))[35],
+		&FrameStageNotifyHook,
+		reinterpret_cast<void**>(&FrameStageNotifyOriginal)
+	);
+
 	MH_EnableHook(MH_ALL_HOOKS);
 }
 
@@ -53,5 +71,46 @@ void __stdcall H::PaintHook(int mode)
 			G::Draw.String(EFonts::DEBUG, 5, 5, { 204, 204, 204, 255 }, TXT_DEFAULT, L"Team Fortress 2: Classic");
 		}
 		FinishDrawing(I::Surface);
+	}
+}
+
+void __stdcall H::PostEntityHook()
+{
+	PostEntityOriginal(I::Client);
+
+	g_Globals.m_nLocalIndex = I::EngineClient->GetLocalPlayer();
+}
+
+void __stdcall H::LevelShutdownHook()
+{
+	g_Globals.m_bIsInGame = false;
+	g_Globals.m_bIsGameUIVisible = true;
+
+	g_Globals.m_nLocalIndex = -1;
+	g_Globals.m_nMaxClients = -1;
+	g_Globals.m_nMaxEntities = -1;
+
+	LevelShutdownOriginal(I::Client);
+}
+
+void __stdcall H::FrameStageNotifyHook(ClientFrameStage_t frameStage)
+{
+	FrameStageNotifyOriginal(I::Client, frameStage);
+
+	switch (frameStage)
+	{
+		case ClientFrameStage_t::FRAME_NET_UPDATE_START:
+		{
+			g_Globals.m_bIsInGame = I::EngineClient->IsInGame();
+			g_Globals.m_bIsGameUIVisible = I::EngineVGui->IsGameUIVisible();
+
+			if (g_Globals.m_bIsInGame)
+			{
+				g_Globals.m_nMaxClients = I::EngineClient->GetMaxClients();
+				g_Globals.m_nMaxEntities = I::ClientEntityList->GetMaxEntities();
+			}
+
+			break;
+		}
 	}
 }
