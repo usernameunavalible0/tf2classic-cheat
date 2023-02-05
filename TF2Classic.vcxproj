@@ -149,6 +149,7 @@
     <ClCompile Include="src\Hooks\Hooks.cpp" />
     <ClCompile Include="src\SDK\DrawManager\DrawManager.cpp" />
     <ClCompile Include="src\Util\Pattern\Pattern.cpp" />
+    <ClCompile Include="src\Util\VFunc\VFunc.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ext\MinHook\buffer.h" />
@@ -160,11 +161,13 @@
     <ClInclude Include="ext\MinHook\MinHook.h" />
     <ClInclude Include="ext\MinHook\trampoline.h" />
     <ClInclude Include="src\Entry\Entry.h" />
+    <ClInclude Include="src\Features\Misc\Misc.h" />
     <ClInclude Include="src\Hooks\Hooks.h" />
     <ClInclude Include="src\SDK\DrawManager\DrawManager.h" />
     <ClInclude Include="src\SDK\Globals\Globals.h" />
     <ClInclude Include="src\SDK\Includes\cdll_int.h" />
     <ClInclude Include="src\SDK\Includes\Color.h" />
+    <ClInclude Include="src\SDK\Includes\c_baseentity.h" />
     <ClInclude Include="src\SDK\Includes\globalvars_base.h" />
     <ClInclude Include="src\SDK\Includes\icliententity.h" />
     <ClInclude Include="src\SDK\Includes\icliententitylist.h" />
@@ -183,6 +186,7 @@
     <ClInclude Include="src\SDK\SDK.h" />
     <ClInclude Include="src\Util\Pattern\Pattern.h" />
     <ClInclude Include="src\Util\Util.h" />
+    <ClInclude Include="src\Util\VFunc\VFunc.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

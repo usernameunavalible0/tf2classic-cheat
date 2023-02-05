@@ -1,4 +1,6 @@
 #pragma once
+#include "../../Util/Util.h"
+
 struct Vector
 {
     float x, y, z;
