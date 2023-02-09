@@ -146,8 +146,10 @@
     <ClCompile Include="ext\MinHook\trampoline.c" />
     <ClCompile Include="src\DllMain.cpp" />
     <ClCompile Include="src\Entry\Entry.cpp" />
+    <ClCompile Include="src\Features\Misc\Misc.cpp" />
     <ClCompile Include="src\Hooks\Hooks.cpp" />
     <ClCompile Include="src\SDK\DrawManager\DrawManager.cpp" />
+    <ClCompile Include="src\SDK\NetVar\NetVar.cpp" />
     <ClCompile Include="src\Util\Pattern\Pattern.cpp" />
     <ClCompile Include="src\Util\VFunc\VFunc.cpp" />
   </ItemGroup>
@@ -162,12 +164,15 @@
     <ClInclude Include="ext\MinHook\trampoline.h" />
     <ClInclude Include="src\Entry\Entry.h" />
     <ClInclude Include="src\Features\Misc\Misc.h" />
+    <ClInclude Include="src\Features\Vars.h" />
     <ClInclude Include="src\Hooks\Hooks.h" />
     <ClInclude Include="src\SDK\DrawManager\DrawManager.h" />
     <ClInclude Include="src\SDK\Globals\Globals.h" />
     <ClInclude Include="src\SDK\Includes\cdll_int.h" />
     <ClInclude Include="src\SDK\Includes\Color.h" />
     <ClInclude Include="src\SDK\Includes\c_baseentity.h" />
+    <ClInclude Include="src\SDK\Includes\dt_common.h" />
+    <ClInclude Include="src\SDK\Includes\dt_recv.h" />
     <ClInclude Include="src\SDK\Includes\globalvars_base.h" />
     <ClInclude Include="src\SDK\Includes\icliententity.h" />
     <ClInclude Include="src\SDK\Includes\icliententitylist.h" />
@@ -184,6 +189,7 @@
     <ClInclude Include="src\SDK\Includes\usercmd.h" />
     <ClInclude Include="src\SDK\Includes\vector.h" />
     <ClInclude Include="src\SDK\Interfaces\Interfaces.h" />
+    <ClInclude Include="src\SDK\NetVar\NetVar.h" />
     <ClInclude Include="src\SDK\SDK.h" />
     <ClInclude Include="src\Util\Pattern\Pattern.h" />
     <ClInclude Include="src\Util\Util.h" />

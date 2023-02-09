@@ -1,5 +1,5 @@
 #pragma once
-#include "c_baseentity.h"
+#include "icliententitylist.h"
 
 class CUserCmd
 {

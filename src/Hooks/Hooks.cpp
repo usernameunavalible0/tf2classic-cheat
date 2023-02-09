@@ -1,4 +1,5 @@
 #include "Hooks.h"
+#include "../Features/Misc/Misc.h"
 
 void H::Initialize()
 {
@@ -57,6 +58,12 @@ bool __stdcall H::CreateMoveHook(float frameTime, CUserCmd* cmd)
 		return CreateMoveOriginal(I::ClientMode, frameTime, cmd);
 
 	//Do Stuff
+	C_BaseEntity* pLocal = static_cast<C_BaseEntity*>(I::ClientEntityList->GetClientEntity(g_Globals.m_nLocalIndex));
+
+	if (pLocal && !pLocal->IsDormant() && pLocal->IsAlive())
+	{
+		F::Misc.Bunnyhop(pLocal, cmd);
+	}
 
 	return false;
 }

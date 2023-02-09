@@ -12,7 +12,7 @@
 #pragma once
 #endif
 
-#include "icliententitylist.h"
+#include "../NetVar/NetVar.h"
 
 // WARNING: Although this class extends from IClientEntity like other classes copy/pasted from SSDK, this class calls things by VFunc Indexes instead of using direct virtual calls.
 
@@ -40,6 +40,16 @@ public:
 	inline Vector EyePosition()
 	{
 		return VFunc_Get<Vector(__thiscall*)(void*)>(this, 141u)(this);
+	}
+
+	int GetFlags()
+	{
+		DYNVAR_RETURN(int, this, "DT_BasePlayer", "m_fFlags");
+	}
+
+	inline bool IsOnGround()
+	{
+		return (this->GetFlags() & FL_ONGROUND);
 	}
 };
 

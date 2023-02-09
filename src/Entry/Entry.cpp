@@ -4,7 +4,7 @@ void CGlobal_Entry::Load()
 {
 	//Interfaces
 	{
-		I::Client = GetInterface<void>("VClient017", "client.dll");
+		I::Client = GetInterface<IBaseClientDLL>("VClient017", "client.dll");
 		I::ClientMode = **reinterpret_cast<void***>((*reinterpret_cast<unsigned int**>(I::Client))[10] + 5);
 		I::ClientEntityList = GetInterface<IClientEntityList>("VClientEntityList003", "client.dll");
 		I::EngineClient = GetInterface<IVEngineClient>("VEngineClient013", "engine.dll");
@@ -28,5 +28,7 @@ void CGlobal_Entry::Load()
 		{ "Verdana", 30, FW_HEAVY, vgui::ISurface::EFontFlags::FONTFLAG_OUTLINE | vgui::ISurface::EFontFlags::FONTFLAG_ANTIALIAS }
 	});
 
+	gNetVars.Init();
+	gNetVars.DumpClassID();
 	H::Initialize();
 }

@@ -104,3 +104,8 @@ void CDraw::Rect(const int x, const int y, const int w, const int h, const Color
 	I::Surface->DrawSetColor(clr);
 	I::Surface->DrawFilledRect(x, y, x + w, y + h);
 }
+
+void CDraw::ReloadMatrix()
+{
+	return;
+}
