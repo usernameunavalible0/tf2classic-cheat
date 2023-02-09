@@ -35,6 +35,12 @@ void H::Initialize()
 		reinterpret_cast<void**>(&FrameStageNotifyOriginal)
 	);
 
+	MH_CreateHook(
+		(*reinterpret_cast<void***>(I::Panel))[41],
+		&PaintPanelHook,
+		reinterpret_cast<void**>(&PaintPanelOriginal)
+	);
+
 	MH_EnableHook(MH_ALL_HOOKS);
 }
 
@@ -113,4 +119,12 @@ void __stdcall H::FrameStageNotifyHook(ClientFrameStage_t frameStage)
 			break;
 		}
 	}
+}
+
+void __stdcall H::PaintPanelHook(VPANEL vguiPanel, bool force_repaint, bool allow_force)
+{
+	if (!strcmp("HudScope", I::Panel->GetName(vguiPanel)))
+		return;
+
+	PaintPanelOriginal(I::Panel, vguiPanel, force_repaint, allow_force);
 }

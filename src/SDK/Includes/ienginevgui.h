@@ -14,12 +14,6 @@
 #endif
 #include "ISurface.h"
 
-// Forward declarations.
-namespace vgui
-{
-	class Panel;
-};
-
 enum VGuiPanel_t
 {
 	PANEL_ROOT = 0,

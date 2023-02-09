@@ -10,6 +10,7 @@ void CGlobal_Entry::Load()
 		I::EngineClient = GetInterface<IVEngineClient>("VEngineClient013", "engine.dll");
 		I::EngineVGui = GetInterface<IEngineVGui>("VEngineVGui001", "engine.dll");
 		I::Surface = GetInterface<vgui::ISurface>("VGUI_Surface030", "vguimatsurface.dll");
+		I::Panel = GetInterface<vgui::IPanel>("VGUI_Panel009", "vgui2.dll");
 		I::GlobalVars = *reinterpret_cast<CGlobalVarsBase**>(g_Pattern.Find("engine.dll", "A1 ? ? ? ? 8B 11 68") + 0x8);
 	}
 

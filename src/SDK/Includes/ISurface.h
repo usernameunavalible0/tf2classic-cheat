@@ -12,7 +12,7 @@
 #pragma once
 #endif
 
-#include "globalvars_base.h"
+#include "IPanel.h"
 
 class ITexture;
 

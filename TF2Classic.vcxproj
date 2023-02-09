@@ -179,6 +179,7 @@
     <ClInclude Include="src\SDK\Includes\ihandleentity.h" />
     <ClInclude Include="src\SDK\Includes\Includes.h" />
     <ClInclude Include="src\SDK\Includes\in_buttons.h" />
+    <ClInclude Include="src\SDK\Includes\IPanel.h" />
     <ClInclude Include="src\SDK\Includes\ISurface.h" />
     <ClInclude Include="src\SDK\Includes\usercmd.h" />
     <ClInclude Include="src\SDK\Includes\vector.h" />

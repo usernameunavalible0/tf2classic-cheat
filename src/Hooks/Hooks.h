@@ -26,4 +26,8 @@ namespace H
 	using FrameStageNotify = void(__thiscall*)(void*, ClientFrameStage_t);
 	static FrameStageNotify FrameStageNotifyOriginal = nullptr;
 	void __stdcall FrameStageNotifyHook(ClientFrameStage_t frameStage);
+
+	using PaintPanel = void(__thiscall*)(void*, VPANEL, bool, bool);
+	static PaintPanel PaintPanelOriginal = nullptr;
+	void __stdcall PaintPanelHook(VPANEL vguiPanel, bool force_repaint, bool allow_force);
 }
