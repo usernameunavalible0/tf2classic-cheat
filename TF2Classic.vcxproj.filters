@@ -51,9 +51,6 @@
     <ClCompile Include="src\Features\Misc\Misc.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\SDK\NetVar\NetVar.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Features\ESP\ESP.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -171,9 +168,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Features\Misc\Misc.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\SDK\NetVar\NetVar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\SDK\Includes\dt_recv.h">

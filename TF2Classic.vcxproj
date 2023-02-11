@@ -151,7 +151,6 @@
     <ClCompile Include="src\Hooks\Hooks.cpp" />
     <ClCompile Include="src\SDK\DrawManager\DrawManager.cpp" />
     <ClCompile Include="src\SDK\NetVarManager\NetVarManager.cpp" />
-    <ClCompile Include="src\SDK\NetVar\NetVar.cpp" />
     <ClCompile Include="src\Util\Pattern\Pattern.cpp" />
     <ClCompile Include="src\Util\VFunc\VFunc.cpp" />
   </ItemGroup>
@@ -196,7 +195,6 @@
     <ClInclude Include="src\SDK\Interfaces\Interfaces.h" />
     <ClInclude Include="src\SDK\Interfaces\RenderView.h" />
     <ClInclude Include="src\SDK\NetVarManager\NetVarManager.h" />
-    <ClInclude Include="src\SDK\NetVar\NetVar.h" />
     <ClInclude Include="src\SDK\SDK.h" />
     <ClInclude Include="src\Util\Math\Math.h" />
     <ClInclude Include="src\Util\Pattern\Pattern.h" />

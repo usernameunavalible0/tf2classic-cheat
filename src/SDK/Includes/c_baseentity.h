@@ -12,7 +12,7 @@
 #pragma once
 #endif
 
-#include "../NetVar/NetVar.h"
+#include "../NetVarManager/NetVarManager.h"
 
 // WARNING: Although this class extends from IClientEntity like other classes copy/pasted from SSDK, this class calls things by VFunc Indexes instead of using direct virtual calls.
 
@@ -30,6 +30,16 @@ public:
 	inline bool InLocalTeam()
 	{
 		return VFunc_Get<bool(__thiscall*)(void*)>(this, 78u)(this);
+	}
+
+	inline int GetHealth()
+	{
+		return VFunc_Get<int(__thiscall*)(void*)>(this, 106u)(this);
+	}
+
+	inline int GetMaxHealth()
+	{
+		return VFunc_Get<int(__thiscall*)(void*)>(this, 107u)(this);
 	}
 
 	inline bool IsAlive()
@@ -52,7 +62,16 @@ public:
 		return VFunc_Get<bool(__thiscall*)(void*)>(this, 135u)(this);
 	}
 
-	inline Vector EyePosition()
+	M_NETVAR(GetFlags, int, "CBasePlayer", "m_fFlags");
+	M_NETVAR(GetCollideableMins, Vector, "CBaseEntity", "m_vecMins");
+	M_NETVAR(GetCollideableMaxs, Vector, "CBaseEntity", "m_vecMaxs");
+
+	inline bool IsOnGround()
+	{
+		return (this->GetFlags() & FL_ONGROUND);
+	}
+
+	/*inline Vector EyePosition()
 	{
 		DYNVAR_RETURN(Vector, this, "DT_BasePlayer", "localdata", "m_vecViewOffset[0]") + GetAbsOrigin();
 	}
@@ -60,16 +79,6 @@ public:
 	int GetFlags()
 	{
 		DYNVAR_RETURN(int, this, "DT_BasePlayer", "m_fFlags");
-	}
-
-	inline bool IsOnGround()
-	{
-		return (this->GetFlags() & FL_ONGROUND);
-	}
-
-	inline Vector GetHitboxPosition(const int nHitbox)
-	{
-		return Vector();
 	}
 
 	inline Vector GetCollideableMins()
@@ -90,7 +99,7 @@ public:
 	inline int GetMaxHealth()
 	{
 		DYNVAR_RETURN(int, this, "DT_BaseObject", "m_iMaxHealth");
-	}
+	}*/
 };
 
 #endif
