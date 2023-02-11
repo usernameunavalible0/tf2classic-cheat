@@ -7,7 +7,7 @@ public:
 	bool bOutline = false;
 
 	bool bPlayers = true;
-	int nNoTeammatePlayers = 0; //0 off 1 all 2 keep friends
+	int nNoTeammatePlayers = 1; //0 off 1 all 2 keep friends
 	bool bPlayerName = true;
 	bool bPlayerClass = false;
 	bool bPlayerHealth = false;

@@ -20,8 +20,8 @@ inline Color GetHealthColor(const int nHealth, const int nMaxHealth)
 
 	const int nHP = max(0, min(nHealth, nMaxHealth));
 
-	const unsigned int nR = static_cast<unsigned int>(min((510 * (nMaxHealth - nHP)) / nMaxHealth, 200));
-	const unsigned int nG = static_cast<unsigned int>(min((510 * nHP) / nMaxHealth, 200));
+	const unsigned __int32 nR = static_cast<unsigned __int32>(min((510 * (nMaxHealth - nHP)) / nMaxHealth, 200));
+	const unsigned __int32 nG = static_cast<unsigned __int32>(min((510 * nHP) / nMaxHealth, 200));
 
 	return { static_cast<byte>(nR), static_cast<byte>(nG), 0u, 255u };
 }

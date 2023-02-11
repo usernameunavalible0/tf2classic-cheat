@@ -1,4 +1,5 @@
 #include "ESP.h"
+#include <algorithm>
 
 Color OutlineColor = { 0, 0, 0, 180 };
 Color CondColor = { 254, 202, 87, 255 };
@@ -193,31 +194,20 @@ void CESP::Paint()
 
 					if (bPlayerHealthBar)
 					{
-						float nHealth = static_cast<float>(Player->GetHealth());
-						float nMaxHealth = 100.0f; //Entity's max health
-						float overheal = 0.0f;
+						x -= 1;
 
-						if (nHealth > nMaxHealth) {
-							overheal = fmod(nHealth, nMaxHealth);
-							nHealth = nMaxHealth;
-						}
+						const float flMaxHealth = static_cast<float>(Player->GetMaxHealth());
+						const float flHealth = std::clamp<float>(static_cast<float>(Player->GetHealth()), 1.0f, flMaxHealth);
 
 						static const int nWidth = 2;
-						int nHeight = (h + (nHealth < nMaxHealth ? 2 : 1));
-						int nHeight2 = (h + 1);
+						const int nHeight = (h + (flHealth < flMaxHealth ? 2 : 1));
+						const int nHeight2 = (h + 1);
 
-						float ratio = (nHealth / nMaxHealth);
+						const float ratio = (flHealth / flMaxHealth);
+						G::Draw.Rect(static_cast<int>(((x - nWidth) - 2)), static_cast<int>((y + nHeight - (nHeight * ratio))), nWidth, static_cast<int>((nHeight * ratio)), HealthColor);
+						G::Draw.OutlinedRect(static_cast<int>(((x - nWidth) - 2) - 1), static_cast<int>((y + nHeight - (nHeight * ratio)) - 1), nWidth + 2, static_cast<int>((nHeight * ratio) + 1), {0, 0, 0, 255});
 
-						G::Draw.Rect(((x - nWidth) - 2), y, nWidth, nHeight2, OutlineColor);
-						G::Draw.Rect(((x - nWidth) - 2), (y + nHeight - (nHeight * ratio)), nWidth, (nHeight * ratio), HealthColor);
-
-						if (bOutline)
-							G::Draw.OutlinedRect(((x - nWidth) - 3), (y - 1), (nWidth + 2), (nHeight2 + 2), OutlineColor);
-
-						if (overheal > 0.0f) {
-							ratio = (overheal / nMaxHealth);
-							G::Draw.Rect(((x - nWidth) - 2), (y + (nHeight + 1) - (nHeight * ratio)), nWidth, (nHeight * ratio), OverhealColor);
-						}
+						x += 1;
 					}
 
 					if (nPlayerBox)

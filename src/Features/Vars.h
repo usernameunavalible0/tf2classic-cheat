@@ -22,6 +22,11 @@ namespace Vars
 		}
 	}
 
+	namespace Visual
+	{
+		inline bool RemoveVisualRecoil = true;
+	}
+
 	namespace Misc
 	{
 		inline bool Bunnyhop = true;
