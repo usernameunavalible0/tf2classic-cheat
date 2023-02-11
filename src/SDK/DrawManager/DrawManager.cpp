@@ -105,7 +105,39 @@ void CDraw::Rect(const int x, const int y, const int w, const int h, const Color
 	I::Surface->DrawFilledRect(x, y, x + w, y + h);
 }
 
+void CDraw::OutlinedRect(const int x, const int y, const int w, const int h, const Color& clr)
+{
+	I::Surface->DrawSetColor(clr);
+	I::Surface->DrawOutlinedRect(x, y, x + w, y + h);
+}
+
+void CDraw::CornerRect(const int x, const int y, const int w, const int h, const int _x, const int _y, const Color color)
+{
+	Line(x, y, x + (w / _x), y, color);
+	Line(x, y, x, y + (h / _y), color);
+
+	Line(x + w, y, x + w - (w / _x), y, color);
+	Line(x + w, y, x + w, y + (h / _y), color);
+
+	Line(x, y + h, x + (w / _x), y + h, color);
+	Line(x, y + h, x, y + h - (h / _y), color);
+
+	Line(x + w, y + h, x + w - (w / _x), y + h, color);
+	Line(x + w, y + h, x + w, y + h - (h / _y), color);
+}
+
+void CDraw::ReloadScreenSize()
+{
+	g_Globals.m_nScreenWidht = I::Client->GetScreenWidth();
+	g_Globals.m_nScreenHeight = I::Client->GetScreenHeight();
+}
+
 void CDraw::ReloadMatrix()
 {
-	return;
+	CViewSetup View;
+	if (I::Client->GetPlayerView(View))
+	{
+		static VMatrix WorldToView = { }, ViewToProjection = { }, WorldToPixels = { }, WorldToProjection = { };
+		I::RenderView->GetMatricesForView(View, &WorldToView, &ViewToProjection, &g_Globals.WorldToProjection, &WorldToPixels);
+	}
 }

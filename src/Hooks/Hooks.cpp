@@ -1,5 +1,6 @@
 #include "Hooks.h"
 #include "../Features/Misc/Misc.h"
+#include "../Features/ESP/ESP.h"
 
 void H::Initialize()
 {
@@ -77,11 +78,15 @@ void __stdcall H::PaintHook(int mode)
 
 	if (mode & PaintMode_t::PAINT_UIPANELS)
 	{
+		G::Draw.ReloadMatrix();
+
 		//Start Drawing
 		StartDrawing(I::Surface);
 		{
 			//Draw Here
 			G::Draw.String(EFonts::DEBUG, 5, 5, { 204, 204, 204, 255 }, TXT_DEFAULT, L"Team Fortress 2: Classic");
+
+			F::ESP.Paint();
 		}
 		FinishDrawing(I::Surface);
 	}

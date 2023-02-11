@@ -54,6 +54,12 @@
     <ClCompile Include="src\SDK\NetVar\NetVar.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Features\ESP\ESP.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SDK\NetVarManager\NetVarManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ext\MinHook\hde\hde32.h">
@@ -174,6 +180,24 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\SDK\Includes\dt_common.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SDK\Includes\ivmodelinfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Features\ESP\ESP.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Util\Math\Math.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SDK\Includes\Classes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SDK\Interfaces\RenderView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SDK\NetVarManager\NetVarManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

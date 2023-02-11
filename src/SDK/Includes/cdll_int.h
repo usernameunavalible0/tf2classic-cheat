@@ -33,7 +33,6 @@ class ClientClass;
 class CMouthInfo;
 
 struct model_t;
-struct matrix3x4_t;
 struct ButtonCode_t;
 struct datamap_t;
 struct vrect_t;

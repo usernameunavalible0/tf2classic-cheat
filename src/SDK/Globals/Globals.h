@@ -1,4 +1,5 @@
 #pragma once
+#include "../Includes/Includes.h"
 
 class CGlobals
 {
@@ -11,6 +12,7 @@ public:
 
 	bool m_bIsInGame = false;
 	bool m_bIsGameUIVisible = false;
+	VMatrix WorldToProjection = {};
 };
 
 inline CGlobals g_Globals;

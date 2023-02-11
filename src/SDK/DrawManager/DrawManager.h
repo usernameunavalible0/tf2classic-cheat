@@ -41,7 +41,10 @@ public:
 
 	void Line(const int x, const int y, const int x1, const int y1, const Color& clr);
 	void Rect(const int x, const int y, const int w, const int h, const Color& clr);
+	void OutlinedRect(const int x, const int y, const int w, const int h, const Color& clr);
+	void CornerRect(const int x, const int y, const int w, const int h, const int _x, const int _y, const Color color);
 
+	void ReloadScreenSize();
 	void ReloadMatrix();
 };
 
@@ -53,3 +56,20 @@ namespace G { inline CDraw Draw; }
 #define TXT_CENTERX		(1 << 3)
 #define TXT_CENTERY		(1 << 4)
 #define TXT_CENTERXY	TXT_CENTERX | TXT_CENTERY
+
+inline bool W2S(const Vector& vOrigin, Vector2D& vScreen)
+{
+	const matrix3x4_t& worldToScreen = g_Globals.WorldToProjection.As3x4();
+
+	float w = worldToScreen[3][0] * vOrigin[0] + worldToScreen[3][1] * vOrigin[1] + worldToScreen[3][2] * vOrigin[2] + worldToScreen[3][3];
+
+	if (w > 0.001)
+	{
+		float fl1DBw = 1 / w;
+		vScreen.x = (g_Globals.m_nScreenWidht / 2) + (0.5 * ((worldToScreen[0][0] * vOrigin[0] + worldToScreen[0][1] * vOrigin[1] + worldToScreen[0][2] * vOrigin[2] + worldToScreen[0][3]) * fl1DBw) * g_Globals.m_nScreenWidht + 0.5);
+		vScreen.y = (g_Globals.m_nScreenHeight / 2) - (0.5 * ((worldToScreen[1][0] * vOrigin[0] + worldToScreen[1][1] * vOrigin[1] + worldToScreen[1][2] * vOrigin[2] + worldToScreen[1][3]) * fl1DBw) * g_Globals.m_nScreenHeight + 0.5);
+		return true;
+	}
+
+	return false;
+}

@@ -10,7 +10,7 @@
 #ifdef _WIN32
 #pragma once
 #endif
-#include "ienginevgui.h"
+#include "ivmodelinfo.h"
 
 #define IN_ATTACK		(1 << 0)
 #define IN_JUMP			(1 << 1)

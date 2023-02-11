@@ -22,6 +22,11 @@
 class C_BaseEntity : public IClientEntity
 {
 public:
+	inline bool GetTeamNumber()
+	{
+		return VFunc_Get<int(__thiscall*)(void*)>(this, 74u)(this);
+	}
+
 	inline bool InLocalTeam()
 	{
 		return VFunc_Get<bool(__thiscall*)(void*)>(this, 78u)(this);
@@ -37,9 +42,19 @@ public:
 		return VFunc_Get<bool(__thiscall*)(void*)>(this, 131u)(this);
 	}
 
+	inline bool IsNPC()
+	{
+		return VFunc_Get<bool(__thiscall*)(void*)>(this, 134u)(this);
+	}
+
+	inline bool IsNextBot()
+	{
+		return VFunc_Get<bool(__thiscall*)(void*)>(this, 135u)(this);
+	}
+
 	inline Vector EyePosition()
 	{
-		return VFunc_Get<Vector(__thiscall*)(void*)>(this, 141u)(this);
+		DYNVAR_RETURN(Vector, this, "DT_BasePlayer", "localdata", "m_vecViewOffset[0]") + GetAbsOrigin();
 	}
 
 	int GetFlags()
@@ -50,6 +65,31 @@ public:
 	inline bool IsOnGround()
 	{
 		return (this->GetFlags() & FL_ONGROUND);
+	}
+
+	inline Vector GetHitboxPosition(const int nHitbox)
+	{
+		return Vector();
+	}
+
+	inline Vector GetCollideableMins()
+	{
+		DYNVAR_RETURN(Vector, this, "DT_BaseEntity", "m_Collision", "m_vecMins");
+	}
+
+	inline Vector GetCollideableMaxs()
+	{
+		DYNVAR_RETURN(Vector, this, "DT_BaseEntity", "m_Collision", "m_vecMaxs");
+	}
+
+	inline int GetHealth()
+	{
+		DYNVAR_RETURN(int, this, "DT_BaseObject", "m_iHealth");
+	}
+
+	inline int GetMaxHealth()
+	{
+		DYNVAR_RETURN(int, this, "DT_BaseObject", "m_iMaxHealth");
 	}
 };
 

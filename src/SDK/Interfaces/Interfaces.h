@@ -1,5 +1,5 @@
 #pragma once
-#include "../Includes/Includes.h"
+#include "RenderView.h"
 
 //GetInterface
 template <typename T>
@@ -25,4 +25,6 @@ namespace I {
 	inline IClientEntityList* ClientEntityList = nullptr;
 	inline IVEngineClient* EngineClient = nullptr;
 	inline vgui::IPanel* Panel = nullptr;
+	inline IVModelInfoClient* ModelInfo = nullptr;
+	inline C_RenderView* RenderView = nullptr;
 }

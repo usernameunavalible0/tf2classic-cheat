@@ -14,7 +14,6 @@
 #include "iclientunknown.h"
 
 struct model_t;
-struct matrix3x4_t;
 
 //-----------------------------------------------------------------------------
 // Handles to a client shadow
