@@ -49,3 +49,19 @@ inline bool VisPosPlayer(C_BaseEntity* pIgnore, C_BaseEntity* pTarget, const Vec
 	UTIL_TraceLine(from, to, (MASK_SHOT | CONTENTS_GRATE), &filter, &tr);
 	return ((tr.m_pEnt && tr.m_pEnt == pTarget) || tr.fraction > 0.99f);
 }
+
+inline void FixMovement(const Vector& va, CUserCmd* cmd)
+{
+	const Vector vMove = { cmd->forwardmove, cmd->sidemove, cmd->upmove };
+
+	Vector vAng;
+	VectorAngles(vMove, vAng);
+
+	const float flSpeed = ::sqrtf(vMove.x * vMove.x + vMove.y * vMove.y);//FastSqrt
+
+	float s, c;
+	SinCos(DEG2RAD(va.y - cmd->viewangles.y + vAng.y), &s, &c);
+
+	cmd->sidemove = (s * flSpeed);
+	cmd->forwardmove = (c * flSpeed);
+}

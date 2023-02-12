@@ -32,9 +32,17 @@ void CAimbot::Run(C_BaseEntity* pLocal, CUserCmd* pCommand)
 
 	ClampAngle(vAngs);
 	//gCvars.iAimbotIndex = pEntity->GetIndex();
-	pCommand->viewangles = vAngs;
 
-	I::EngineClient->SetViewAngles(pCommand->viewangles);
+	if (Vars::Aimbot::SilentAim)
+	{
+		FixMovement(vAngs, pCommand);
+		pCommand->viewangles = vAngs;
+	}
+	else
+	{
+		pCommand->viewangles = vAngs;
+		I::EngineClient->SetViewAngles(pCommand->viewangles);
+	}
 
 	if (Vars::Aimbot::Autoshoot)
 		pCommand->buttons |= IN_ATTACK;

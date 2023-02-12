@@ -357,3 +357,19 @@ inline void VectorAngles(const Vector& forward, Vector& angles)
 	angles[1] = yaw;
 	angles[2] = 0;
 }
+
+// Math routines done in optimized assembly math package routines
+void inline SinCos(float radians, float* sine, float* cosine)
+{
+	_asm
+	{
+		fld		DWORD PTR[radians]
+		fsincos
+
+		mov edx, DWORD PTR[cosine]
+		mov eax, DWORD PTR[sine]
+
+		fstp DWORD PTR[edx]
+		fstp DWORD PTR[eax]
+	}
+}

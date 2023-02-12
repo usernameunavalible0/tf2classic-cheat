@@ -21,7 +21,6 @@ class IMaterial;
 class KeyValues;
 struct vcollide_t;
 struct model_t;
-class QAngle;
 class CGameTrace;
 struct cplane_t;
 typedef CGameTrace trace_t;
@@ -134,10 +133,10 @@ public:
 
 	// Available on client only!!!
 	virtual void					GetModelMaterialColorAndLighting(const model_t* model, Vector const& origin,
-										QAngle const& angles, trace_t* pTrace,
+										Vector const& angles, trace_t* pTrace,
 										Vector& lighting, Vector& matColor) = 0;
 	virtual void					GetIlluminationPoint(const model_t* model, IClientRenderable* pRenderable, Vector const& origin,
-										QAngle const& angles, Vector* pLightingCenter) = 0;
+										Vector const& angles, Vector* pLightingCenter) = 0;
 
 	virtual int						GetModelContents(int modelIndex) = 0;
 	virtual studiohdr_t* GetStudiomodel(const model_t* mod) = 0;

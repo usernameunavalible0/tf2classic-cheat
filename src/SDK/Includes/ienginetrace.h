@@ -179,7 +179,6 @@ public:
 
 typedef CGameTrace trace_t;
 class ICollideable;
-class QAngle;
 class CTraceListData;
 class CPhysCollide;
 struct cplane_t;
@@ -329,7 +328,7 @@ public:
 	// abs start + abs end represents the collision origins you want to sweep the collideable through
 	// vecAngles represents the collision angles of the collideable during the sweep
 	virtual void	SweepCollideable(ICollideable* pCollide, const Vector& vecAbsStart, const Vector& vecAbsEnd,
-		const QAngle& vecAngles, unsigned int fMask, ITraceFilter* pTraceFilter, trace_t* pTrace) = 0;
+		const Vector& vecAngles, unsigned int fMask, ITraceFilter* pTraceFilter, trace_t* pTrace) = 0;
 
 	// Enumerates over all entities along a ray
 	// If triggers == true, it enumerates all triggers along a ray

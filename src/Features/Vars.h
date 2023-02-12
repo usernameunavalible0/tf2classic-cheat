@@ -6,9 +6,10 @@ namespace Vars
 	namespace Aimbot
 	{
 		inline bool Enabled = true;
-		inline int Hitbox = 18;
+		inline int Hitbox = 0;
 		inline bool Autoshoot = true;
 		inline int AimKey = VK_SHIFT;
+		inline bool SilentAim = true;
 	}
 
 	namespace ESP
