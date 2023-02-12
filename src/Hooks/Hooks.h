@@ -30,4 +30,8 @@ namespace H
 	using PaintPanel = void(__thiscall*)(void*, VPANEL, bool, bool);
 	static PaintPanel PaintPanelOriginal = nullptr;
 	void __stdcall PaintPanelHook(VPANEL vguiPanel, bool force_repaint, bool allow_force);
+
+	using CalcPlayerView = void(__fastcall*)(C_BaseEntity*, void*, Vector&, Vector&, float&);
+	static CalcPlayerView PlayerViewOriginal = nullptr;
+	void __fastcall PlayerViewHook(C_BaseEntity* pThis, void* edx, Vector& eyeOrigin, Vector& eyeAngles, float& fov);
 }

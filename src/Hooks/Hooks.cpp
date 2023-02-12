@@ -1,6 +1,7 @@
 #include "Hooks.h"
 #include "../Features/Misc/Misc.h"
 #include "../Features/ESP/ESP.h"
+#include "../Features/Aimbot/Aimbot.h"
 
 void H::Initialize()
 {
@@ -64,6 +65,7 @@ bool __stdcall H::CreateMoveHook(float frameTime, CUserCmd* cmd)
 	if (pLocal && !pLocal->IsDormant() && pLocal->IsAlive())
 	{
 		F::Misc.Bunnyhop(pLocal, cmd);
+		F::Aimbot.Run(pLocal, cmd);
 	}
 
 	return false;
@@ -139,4 +141,9 @@ void __stdcall H::PaintPanelHook(VPANEL vguiPanel, bool force_repaint, bool allo
 		return;
 
 	PaintPanelOriginal(I::Panel, vguiPanel, force_repaint, allow_force);
+}
+
+void __fastcall H::PlayerViewHook(C_BaseEntity* pThis, void* edx, Vector& eyeOrigin, Vector& eyeAngles, float& fov)
+{
+	PlayerViewOriginal(pThis, edx, eyeOrigin, eyeAngles, fov);
 }

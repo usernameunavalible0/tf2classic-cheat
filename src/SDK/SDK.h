@@ -25,3 +25,27 @@ inline Color GetHealthColor(const int nHealth, const int nMaxHealth)
 
 	return { static_cast<byte>(nR), static_cast<byte>(nG), 0u, 255u };
 }
+
+inline void UTIL_TraceLine(const Vector& start, const Vector& end, unsigned int mask, ITraceFilter* filter, trace_t* trace)
+{
+	Ray_t ray = {};
+	ray.Init(start, end);
+	I::EngineTrace->TraceRay(ray, mask, filter, trace);
+}
+
+inline bool VisPos(const Vector& from, const Vector& to)
+{
+	trace_t tr = {};
+	CTraceFilterWorldAndPropsOnly filter = {};
+	UTIL_TraceLine(from, to, MASK_SOLID, &filter, &tr);
+	return tr.fraction > 0.99f;
+}
+
+inline bool VisPosPlayer(C_BaseEntity* pIgnore, C_BaseEntity* pTarget, const Vector& from, const Vector& to)
+{
+	trace_t tr = {};
+	CTraceFilterHitscan filter = {};
+	filter.pSkip = pIgnore;
+	UTIL_TraceLine(from, to, (MASK_SHOT | CONTENTS_GRATE), &filter, &tr);
+	return ((tr.m_pEnt && tr.m_pEnt == pTarget) || tr.fraction > 0.99f);
+}

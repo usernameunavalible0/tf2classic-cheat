@@ -65,10 +65,51 @@ public:
 	M_NETVAR(GetFlags, int, "CBasePlayer", "m_fFlags");
 	M_NETVAR(GetCollideableMins, Vector, "CBaseEntity", "m_vecMins");
 	M_NETVAR(GetCollideableMaxs, Vector, "CBaseEntity", "m_vecMaxs");
+	M_NETVAR(GetHitboxSet, int, "CBaseAnimating", "m_nHitboxSet");
+	M_NETVAR(m_iClass, int, "CTFPlayer", "m_iClass");
+	
+	inline IClientEntity* GetActiveWeapon()
+	{
+		static const int nOffset = GetNetVar("CBaseCombatCharacter", "m_hActiveWeapon");
+		int index = *reinterpret_cast<int*>(reinterpret_cast<DWORD>(this) + nOffset);
+		return reinterpret_cast<IClientEntity*>(I::ClientEntityList->GetClientEntity(index));
+	}
+
+	inline bool GetHitboxPosition(const int nHitbox, Vector& vPosition)
+	{
+		const model_t* pModel = this->GetModel();
+
+		if (!pModel)
+			return false;
+
+		const studiohdr_t* pStudioHdr = I::ModelInfo->GetStudiomodel(pModel);
+
+		if (!pStudioHdr)
+			return false;
+
+		const mstudiobbox_t* pBox = pStudioHdr->pHitbox(nHitbox, this->GetHitboxSet());
+
+		if (!pBox || (pBox->bone >= 128) || (pBox->bone < 0))
+			return false;
+
+		matrix3x4_t Matrix[128];
+		if (!SetupBones(Matrix, 128, 0x100, I::GlobalVars->curtime))
+			return false;
+
+		VectorTransform((pBox->bbmax + pBox->bbmin) * 0.5f, Matrix[pBox->bone], vPosition);
+		return true;
+	}
 
 	inline bool IsOnGround()
 	{
 		return (this->GetFlags() & FL_ONGROUND);
+	}
+
+	inline Vector EyePosition()
+	{
+		static const int nOffset = GetNetVar("CBasePlayer", "m_vecViewOffset[0]");
+		Vector vOffset = *reinterpret_cast<Vector*>(reinterpret_cast<DWORD>(this) + nOffset);
+		return (vOffset + GetAbsOrigin());
 	}
 
 	/*inline Vector EyePosition()

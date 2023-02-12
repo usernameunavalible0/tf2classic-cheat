@@ -234,3 +234,126 @@ inline void VectorTransform(const Vector& input, const matrix3x4_t& matrix, Vect
 	for (auto i = 0; i < 3; i++)
 		output[i] = input.Dot((Vector&)matrix[i]) + matrix[i][3];
 }
+
+class __declspec(align(16))VectorAligned : public Vector
+{
+public:
+	inline VectorAligned(void) { };
+
+	inline VectorAligned(float x, float y, float z) {
+		Set(x, y, z);
+	}
+
+	explicit VectorAligned(const Vector& othr) {
+		Set(othr.x, othr.y, othr.z);
+	}
+
+	VectorAligned& operator=(const Vector& othr) {
+		Set(othr.x, othr.y, othr.z);
+		return *this;
+	}
+
+	float w;
+};
+
+struct Ray_t
+{
+	VectorAligned  m_Start;	// starting point, centered within the extents
+	VectorAligned  m_Delta;	// direction + length of the ray
+	VectorAligned  m_StartOffset;	// Add this to m_Start to get the actual ray start
+	VectorAligned  m_Extents;	// Describes an axis aligned box extruded along a ray
+	bool m_IsRay;	// are the extents zero?
+	bool m_IsSwept;	// is delta != 0?
+
+	void Init(Vector const& start, Vector const& end)
+	{
+		m_Delta = end - start;
+		m_IsSwept = (m_Delta.LenghtSqr() != 0);
+		m_Extents.Set();
+		m_IsRay = true;
+		m_StartOffset.Set();
+		m_Start = start;
+	}
+
+	void Init(Vector const& start, Vector const& end, Vector const& mins, Vector const& maxs)
+	{
+		m_Delta = end - start;
+		m_IsSwept = (m_Delta.LenghtSqr() != 0);
+		m_Extents = maxs - mins;
+		m_Extents *= 0.5f;
+		m_IsRay = (m_Extents.LenghtSqr() < 1e-6);
+		m_StartOffset = mins + maxs;
+		m_StartOffset *= 0.5f;
+		m_Start = start + m_StartOffset;
+		m_StartOffset *= -1.0f;
+	}
+
+	Vector InvDelta() const
+	{
+		Vector vecInvDelta;
+		for (int iAxis = 0; iAxis < 3; ++iAxis)
+		{
+			if (m_Delta[iAxis] != 0.0f)
+			{
+				vecInvDelta[iAxis] = 1.0f / m_Delta[iAxis];
+			}
+			else
+			{
+				vecInvDelta[iAxis] = FLT_MAX;
+			}
+		}
+		return vecInvDelta;
+	}
+
+private:
+};
+
+//At this point this file is just random math
+
+inline float NormalizeAngle(float ang)
+{
+	if (!std::isfinite(ang))
+		return 0.0f;
+
+	return std::remainder(ang, 360.0f);
+}
+
+inline void ClampAngle(Vector& v)
+{
+	v.x = max(-89.0f, min(89.0f, NormalizeAngle(v.x)));
+	v.y = NormalizeAngle(v.y);
+	v.z = 0.0f;
+}
+
+inline void VectorAngles(const Vector& forward, Vector& angles)
+{
+	float tmp, yaw, pitch;
+
+	if (forward.y == 0 && forward.x == 0)
+	{
+		yaw = 0;
+
+		if (forward.z > 0)
+			pitch = 270;
+		else
+			pitch = 90;
+	}
+
+	else
+	{
+		yaw = RAD2DEG(atan2f(forward.y, forward.x));
+
+		if (yaw < 0)
+			yaw += 360;
+
+		tmp = forward.Lenght2D();
+		pitch = RAD2DEG(atan2f(-forward.z, tmp));
+
+		if (pitch < 0)
+			pitch += 360;
+	}
+
+	angles[0] = pitch;
+	angles[1] = yaw;
+	angles[2] = 0;
+}

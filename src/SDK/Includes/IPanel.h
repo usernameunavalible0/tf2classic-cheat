@@ -12,7 +12,7 @@
 #pragma once
 #endif
 
-#include "cdll_int.h"
+#include "ienginetrace.h"
 
 typedef unsigned int VPANEL;
 

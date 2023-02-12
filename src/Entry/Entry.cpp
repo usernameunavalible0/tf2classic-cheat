@@ -13,6 +13,7 @@ void CGlobal_Entry::Load()
 		I::ClientEntityList = GetInterface<IClientEntityList>("VClientEntityList003", "client.dll");
 		I::EngineClient = GetInterface<IVEngineClient>("VEngineClient013", "engine.dll");
 		I::EngineVGui = GetInterface<IEngineVGui>("VEngineVGui001", "engine.dll");
+		I::EngineTrace = GetInterface<IEngineTrace>("EngineTraceClient003", "engine.dll");
 		I::Surface = GetInterface<vgui::ISurface>("VGUI_Surface030", "vguimatsurface.dll");
 		I::Panel = GetInterface<vgui::IPanel>("VGUI_Panel009", "vgui2.dll");
 		I::ModelInfo = GetInterface<IVModelInfoClient>("VModelInfoClient006", "engine.dll");

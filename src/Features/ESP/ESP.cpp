@@ -1,5 +1,4 @@
 #include "ESP.h"
-#include <algorithm>
 
 Color OutlineColor = { 0, 0, 0, 180 };
 Color CondColor = { 254, 202, 87, 255 };

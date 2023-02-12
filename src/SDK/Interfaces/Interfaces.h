@@ -24,6 +24,7 @@ namespace I {
 	inline CGlobalVarsBase* GlobalVars = nullptr;
 	inline IClientEntityList* ClientEntityList = nullptr;
 	inline IVEngineClient* EngineClient = nullptr;
+	inline IEngineTrace* EngineTrace = nullptr;
 	inline vgui::IPanel* Panel = nullptr;
 	inline IVModelInfoClient* ModelInfo = nullptr;
 	inline C_RenderView* RenderView = nullptr;

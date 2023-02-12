@@ -9,6 +9,29 @@ enum StereoEye_t
 	STEREO_EYE_MAX = 3,
 };
 
+enum
+{
+	TF_CLASS_UNDEFINED = 0,
+
+	TF_CLASS_SCOUT,			// TF_FIRST_NORMAL_CLASS
+	TF_CLASS_SNIPER,
+	TF_CLASS_SOLDIER,
+	TF_CLASS_DEMOMAN,
+	TF_CLASS_MEDIC,
+	TF_CLASS_HEAVYWEAPONS,
+	TF_CLASS_PYRO,
+	TF_CLASS_SPY,
+	TF_CLASS_ENGINEER,		// TF_LAST_NORMAL_CLASS
+
+	// Add any new classes after Engineer.
+	// The following classes are not available in normal play.
+	TF_CLASS_CIVILIAN,
+	TF_CLASS_MERCENARY,
+	TF_CLASS_COUNT_ALL,
+
+	TF_CLASS_RANDOM
+};
+
 class VMatrix {
 private:
 	Vector m[4][4];
@@ -114,4 +137,66 @@ public:
 	// This does NOT override the Z range - that will be set up as normal (i.e. the values in this matrix will be ignored).
 	bool        m_bViewToProjectionOverride;
 	VMatrix     m_ViewToProjection;
+};
+
+struct mstudiobbox_t
+{
+	int bone;
+	int group;
+	Vector bbmin;
+	Vector bbmax;
+	int szhitboxnameindex;
+	int unused[8];
+
+	const char* pszHitboxName()
+	{
+		if (szhitboxnameindex == 0)
+			return "";
+
+		return ((const char*)this) + szhitboxnameindex;
+	}
+};
+
+struct mstudiohitboxset_t
+{
+	int sznameindex;
+	inline char* const	pszName(void) const { return ((char*)this) + sznameindex; }
+	int numhitboxes;
+	int hitboxindex;
+	inline mstudiobbox_t* pHitbox(int i) const { return (mstudiobbox_t*)(((unsigned char*)this) + hitboxindex) + i; };
+};
+
+struct studiohdr_t
+{
+	unsigned char		pad00[12];
+	char				name[64];
+	unsigned char		pad01[80];
+	int					numbones;
+	int					boneindex;
+	unsigned char		pad02[12];
+	int					hitboxsetindex;
+	unsigned char		pad03[228];
+
+	mstudiohitboxset_t* pHitboxSet(int i) const
+	{
+		return (mstudiohitboxset_t*)(((unsigned char*)this) + hitboxsetindex) + i;
+	};
+
+	inline mstudiobbox_t* pHitbox(int i, int set) const
+	{
+		mstudiohitboxset_t const* s = pHitboxSet(set);
+		if (!s)
+			return NULL;
+
+		return s->pHitbox(i);
+	};
+
+	inline int iHitboxCount(int set) const
+	{
+		mstudiohitboxset_t const* s = pHitboxSet(set);
+		if (!s)
+			return 0;
+
+		return s->numhitboxes;
+	};
 };

@@ -3,6 +3,14 @@
 
 namespace Vars
 {
+	namespace Aimbot
+	{
+		inline bool Enabled = true;
+		inline int Hitbox = 18;
+		inline bool Autoshoot = true;
+		inline int AimKey = VK_SHIFT;
+	}
+
 	namespace ESP
 	{
 		inline bool Enabled = true;

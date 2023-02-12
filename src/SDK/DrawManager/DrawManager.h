@@ -57,6 +57,8 @@ namespace G { inline CDraw Draw; }
 #define TXT_CENTERY		(1 << 4)
 #define TXT_CENTERXY	TXT_CENTERX | TXT_CENTERY
 
+#pragma warning (disable:4244)
+
 inline bool W2S(const Vector& vOrigin, Vector2D& vScreen)
 {
 	const matrix3x4_t& worldToScreen = g_Globals.WorldToProjection.As3x4();
