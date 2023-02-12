@@ -67,7 +67,12 @@ public:
 	M_NETVAR(GetCollideableMaxs, Vector, "CBaseEntity", "m_vecMaxs");
 	M_NETVAR(GetHitboxSet, int, "CBaseAnimating", "m_nHitboxSet");
 	M_NETVAR(m_iClass, int, "CTFPlayer", "m_iClass");
-	
+	M_NETVAR(m_nPlayerCond, int, "CTFPlayer", "m_nPlayerCond");
+	M_NETVAR(m_nPlayerCondEx, int, "CTFPlayer", "m_nPlayerCondEx");
+	M_NETVAR(m_nPlayerCondEx2, int, "CTFPlayer", "m_nPlayerCondEx2");
+	M_NETVAR(m_nPlayerCondEx3, int, "CTFPlayer", "m_nPlayerCondEx3");
+	M_NETVAR(m_nPlayerCondEx4, int, "CTFPlayer", "m_nPlayerCondEx4");
+
 	inline IClientEntity* GetActiveWeapon()
 	{
 		static const int nOffset = GetNetVar("CBaseCombatCharacter", "m_hActiveWeapon");
@@ -110,6 +115,75 @@ public:
 		static const int nOffset = GetNetVar("CBasePlayer", "m_vecViewOffset[0]");
 		Vector vOffset = *reinterpret_cast<Vector*>(reinterpret_cast<DWORD>(this) + nOffset);
 		return (vOffset + GetAbsOrigin());
+	}
+
+	//Credits to KGB
+	inline bool InCond(const int iCond)
+	{
+		switch (iCond / 32)
+		{
+		case 0:
+		{
+			const int bit = (1 << iCond);
+			if ((m_nPlayerCond() & bit) == bit)
+				return true;
+
+			break;
+		}
+		case 1:
+		{
+			const int bit = 1 << (iCond - 32);
+			if ((m_nPlayerCondEx() & bit) == bit)
+				return true;
+
+			break;
+		}
+		case 2:
+		{
+			const int bit = 1 << (iCond - 64);
+			if ((m_nPlayerCondEx2() & bit) == bit)
+				return true;
+
+			break;
+		}
+		case 3:
+		{
+			const int bit = 1 << (iCond - 96);
+			if ((m_nPlayerCondEx3() & bit) == bit)
+				return true;
+
+			break;
+		}
+		case 4:
+		{
+			const int bit = 1 << (iCond - 128);
+			if ((m_nPlayerCondEx4() & bit) == bit)
+				return true;
+
+			break;
+		}
+		default:
+			break;
+		}
+
+		return false;
+	}
+
+	inline bool IsInvulnerable()
+	{
+		return InCond(TF_COND_INVULNERABLE)
+			|| InCond(TF_COND_INVULNERABLE_CARD_EFFECT)
+			|| InCond(TF_COND_INVULNERABLE_HIDE_UNLESS_DAMAGE)
+			|| InCond(TF_COND_INVULNERABLE_USER_BUFF)
+			|| InCond(TF_COND_PHASE);
+	}
+
+	inline bool IsCloaked()
+	{
+		return InCond(TF_COND_STEALTHED)
+			|| InCond(TF_COND_STEALTHED_BLINK)
+			|| InCond(TF_COND_STEALTHED_USER_BUFF)
+			|| InCond(TF_COND_STEALTHED_USER_BUFF_FADING);
 	}
 
 	/*inline Vector EyePosition()

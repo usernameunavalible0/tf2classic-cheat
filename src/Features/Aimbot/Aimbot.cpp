@@ -83,10 +83,8 @@ int CAimbot::GetBestTarget(C_BaseEntity* pLocal)
 		//if (!gCvars.PlayerMode[i])
 		//	continue;
 
-		//if (pEntity->GetCond() & TFCond_Ubercharged ||
-		//	pEntity->GetCond() & TFCond_UberchargeFading ||
-		//	pEntity->GetCond() & TFCond_Bonked)
-		//	continue;
+		if (pEntity->IsInvulnerable() || pEntity->IsCloaked())
+			continue;
 
 		float flDistToTarget = (vLocal - vEntity).Lenght();
 
