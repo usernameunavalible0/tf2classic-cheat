@@ -10,7 +10,7 @@
 #pragma once
 #endif
 
-#include "globalvars_base.h"
+#include "netchannel.h"
 
 class CAudioSource;
 class CSentence;
@@ -291,7 +291,8 @@ public:
 	virtual void		SaveFreeMemory(void* pSaveMem) = 0;
 
 	// returns info interface for client netchannel
-	virtual INetChannelInfo* GetNetChannelInfo(void) = 0;
+	//virtual INetChannelInfo* GetNetChannelInfo(void) = 0;
+	virtual CNetChan* GetNetChannelInfo(void) = 0;
 
 	// Debugging functionality:
 	// Very slow routine to draw a physics model
