@@ -172,6 +172,7 @@
     <ClInclude Include="src\Hooks\Hooks.h" />
     <ClInclude Include="src\SDK\DrawManager\DrawManager.h" />
     <ClInclude Include="src\SDK\Globals\Globals.h" />
+    <ClInclude Include="src\SDK\Includes\basecombatweapon_shared.h" />
     <ClInclude Include="src\SDK\Includes\cdll_int.h" />
     <ClInclude Include="src\SDK\Includes\Color.h" />
     <ClInclude Include="src\SDK\Includes\c_baseentity.h" />

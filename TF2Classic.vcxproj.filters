@@ -206,5 +206,8 @@
     <ClInclude Include="src\SDK\Includes\netchannel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\SDK\Includes\basecombatweapon_shared.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

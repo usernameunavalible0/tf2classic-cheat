@@ -9,7 +9,7 @@ public:
 
 private:
 
-	int GetBestTarget(C_BaseEntity* pLocal);
+	int GetBestTarget(C_BaseEntity* pLocal, C_BaseCombatWeapon* pWeapon);
 
 	int GetBestHitbox(C_BaseEntity* pLocal, C_BaseEntity* pEntity);
 };

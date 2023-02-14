@@ -22,14 +22,14 @@ class IClientEntityList
 {
 public:
 	// Get IClientNetworkable interface for specified entity
-	virtual void* GetClientNetworkable(int entnum) = 0;
-	virtual void* GetClientNetworkableFromHandle(DWORD hEnt) = 0;
-	virtual void* GetClientUnknownFromHandle(DWORD hEnt) = 0;
+	virtual IClientNetworkable* GetClientNetworkable(int entnum) = 0;
+	virtual IClientNetworkable* GetClientNetworkableFromHandle(CBaseHandle hEnt) = 0;
+	virtual IClientUnknown* GetClientUnknownFromHandle(CBaseHandle hEnt) = 0;
 
 	// NOTE: This function is only a convenience wrapper.
 	// It returns GetClientNetworkable( entnum )->GetIClientEntity().
 	virtual IClientEntity* GetClientEntity(int entnum) = 0;
-	virtual IClientEntity* GetClientEntityFromHandle(DWORD hEnt) = 0;
+	virtual IClientEntity* GetClientEntityFromHandle(CBaseHandle hEnt) = 0;
 
 	// Returns number of entities currently in use
 	virtual int					NumberOfEntities(bool bIncludeNonNetworkable) = 0;

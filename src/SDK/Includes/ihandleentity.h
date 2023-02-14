@@ -12,7 +12,7 @@
 
 #include "in_buttons.h"
 
-class CBaseHandle;
+typedef unsigned long CBaseHandle;
 
 
 // An IHandleEntity-derived class can go into an entity list and use ehandles.

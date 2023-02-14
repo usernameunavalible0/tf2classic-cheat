@@ -1,7 +1,7 @@
 #pragma once
 #include "DrawManager/DrawManager.h"
 #include "../../ext/MinHook/MinHook.h"
-#include "Includes/c_baseentity.h"
+#include "Includes/basecombatweapon_shared.h"
 
 inline Color GetTeamColor(const int nTeam)
 {

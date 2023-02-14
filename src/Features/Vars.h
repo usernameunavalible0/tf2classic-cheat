@@ -10,6 +10,8 @@ namespace Vars
 		inline bool Autoshoot = true;
 		inline int AimKey = VK_SHIFT;
 		inline bool SilentAim = true;
+		inline bool IgnoreInvulnerable = true;
+		inline bool IgnoreCloaked = true;
 	}
 
 	namespace ESP

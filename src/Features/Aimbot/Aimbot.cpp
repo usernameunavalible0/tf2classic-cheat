@@ -10,10 +10,12 @@ void CAimbot::Run(C_BaseEntity* pLocal, CUserCmd* pCommand)
 	if (!GetAsyncKeyState(Vars::Aimbot::AimKey))
 		return;
 
-	//if (!pLocal->GetActiveWeapon())
-	//	return;
+	C_BaseCombatWeapon* pWeapon = pLocal->GetActiveWeapon();
 
-	C_BaseEntity* pEntity = static_cast<C_BaseEntity*>(I::ClientEntityList->GetClientEntity(GetBestTarget(pLocal)));
+	if (!pWeapon)
+		return;
+
+	C_BaseEntity* pEntity = static_cast<C_BaseEntity*>(I::ClientEntityList->GetClientEntity(GetBestTarget(pLocal, pWeapon)));
 
 	if (!pEntity)
 		return;
@@ -48,7 +50,7 @@ void CAimbot::Run(C_BaseEntity* pLocal, CUserCmd* pCommand)
 		pCommand->buttons |= IN_ATTACK;
 }
 
-int CAimbot::GetBestTarget(C_BaseEntity* pLocal)
+int CAimbot::GetBestTarget(C_BaseEntity* pLocal, C_BaseCombatWeapon* pWeapon)
 {
 	int iBestTarget = -1;
 	//this num could be smaller 
@@ -83,7 +85,10 @@ int CAimbot::GetBestTarget(C_BaseEntity* pLocal)
 		//if (!gCvars.PlayerMode[i])
 		//	continue;
 
-		if (pEntity->IsInvulnerable() || pEntity->IsCloaked())
+		if (Vars::Aimbot::IgnoreInvulnerable && pEntity->IsInvulnerable())
+			continue;
+
+		if (Vars::Aimbot::IgnoreCloaked && pEntity->IsCloaked())
 			continue;
 
 		float flDistToTarget = (vLocal - vEntity).Lenght();

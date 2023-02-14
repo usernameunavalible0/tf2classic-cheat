@@ -15,6 +15,7 @@
 #include "../NetVarManager/NetVarManager.h"
 
 // WARNING: Although this class extends from IClientEntity like other classes copy/pasted from SSDK, this class calls things by VFunc Indexes instead of using direct virtual calls.
+class C_BaseCombatWeapon;
 
 //-----------------------------------------------------------------------------
 // Purpose: Base client side entity object
@@ -73,11 +74,11 @@ public:
 	M_NETVAR(m_nPlayerCondEx3, int, "CTFPlayer", "m_nPlayerCondEx3");
 	M_NETVAR(m_nPlayerCondEx4, int, "CTFPlayer", "m_nPlayerCondEx4");
 
-	inline IClientEntity* GetActiveWeapon()
+	inline C_BaseCombatWeapon* GetActiveWeapon()
 	{
-		static const int nOffset = GetNetVar("CBaseCombatCharacter", "m_hActiveWeapon");
-		int index = *reinterpret_cast<int*>(reinterpret_cast<DWORD>(this) + nOffset);
-		return reinterpret_cast<IClientEntity*>(I::ClientEntityList->GetClientEntity(index));
+		CBaseHandle hHandle = *reinterpret_cast<CBaseHandle*>(reinterpret_cast<DWORD>(this) + 0x0CE0);
+		C_BaseCombatWeapon* pWeapon = reinterpret_cast<C_BaseCombatWeapon*>(I::ClientEntityList->GetClientEntityFromHandle(hHandle));
+		return pWeapon;
 	}
 
 	inline bool GetHitboxPosition(const int nHitbox, Vector& vPosition)
