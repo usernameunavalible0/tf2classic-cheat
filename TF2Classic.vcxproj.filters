@@ -60,6 +60,12 @@
     <ClCompile Include="src\Features\Aimbot\Aimbot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Features\Menu\InputHelper\InputHelper.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Features\Menu\Menu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ext\MinHook\hde\hde32.h">
@@ -207,6 +213,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\SDK\Includes\basecombatweapon_shared.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Features\Menu\InputHelper\InputHelper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Features\Menu\Menu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

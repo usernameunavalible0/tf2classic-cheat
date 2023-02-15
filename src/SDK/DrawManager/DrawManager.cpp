@@ -111,6 +111,15 @@ void CDraw::OutlinedRect(const int x, const int y, const int w, const int h, con
 	I::Surface->DrawOutlinedRect(x, y, x + w, y + h);
 }
 
+void CDraw::GradientRect(const int x, const int y, const int x1, const int y1, const Color& clrTop, const Color& clrBottom, const bool bHorizontal)
+{
+	I::Surface->DrawSetColor(clrTop);
+	I::Surface->DrawFilledRectFade(x, y, x1, y1, 255u, 255u, bHorizontal);
+
+	I::Surface->DrawSetColor(clrBottom);
+	I::Surface->DrawFilledRectFade(x, y, x1, y1, 0u, 255u, bHorizontal);
+}
+
 void CDraw::CornerRect(const int x, const int y, const int w, const int h, const int _x, const int _y, const Color color)
 {
 	Line(x, y, x + (w / _x), y, color);

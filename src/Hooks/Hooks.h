@@ -31,7 +31,18 @@ namespace H
 	static PaintPanel PaintPanelOriginal = nullptr;
 	void __stdcall PaintPanelHook(VPANEL vguiPanel, bool force_repaint, bool allow_force);
 
-	using CalcPlayerView = void(__fastcall*)(C_BaseEntity*, void*, Vector&, Vector&, float&);
-	static CalcPlayerView PlayerViewOriginal = nullptr;
-	void __fastcall PlayerViewHook(C_BaseEntity* pThis, void* edx, Vector& eyeOrigin, Vector& eyeAngles, float& fov);
+	using OnScreenSizeChanged = void(__thiscall*)(void*, int, int);
+	static OnScreenSizeChanged OSSC_Original = nullptr;
+	void __stdcall OSSC_Hook(int oldWidth, int oldHeight);
+
+	using LockCursor = void(__thiscall*)(void*);
+	static LockCursor LockCursorOriginal = nullptr;
+	void __stdcall LockCursorHook();
+
+	namespace WndProc
+	{
+		inline WNDPROC oWndProc = nullptr;
+		inline HWND	   hwGame = nullptr;
+		LRESULT CALLBACK Detour(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+	}
 }

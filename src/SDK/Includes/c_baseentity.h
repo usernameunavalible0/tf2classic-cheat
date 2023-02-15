@@ -23,10 +23,6 @@ class C_BaseCombatWeapon;
 class C_BaseEntity : public IClientEntity
 {
 public:
-	inline bool GetTeamNumber()
-	{
-		return VFunc_Get<int(__thiscall*)(void*)>(this, 74u)(this);
-	}
 
 	inline bool InLocalTeam()
 	{
@@ -68,6 +64,7 @@ public:
 	M_NETVAR(GetCollideableMaxs, Vector, "CBaseEntity", "m_vecMaxs");
 	M_NETVAR(GetHitboxSet, int, "CBaseAnimating", "m_nHitboxSet");
 	M_NETVAR(m_iClass, int, "CTFPlayer", "m_iClass");
+	M_NETVAR(GetTeamNumber, int, "CBaseEntity", "m_iTeamNum");
 	M_NETVAR(m_nPlayerCond, int, "CTFPlayer", "m_nPlayerCond");
 	M_NETVAR(m_nPlayerCondEx, int, "CTFPlayer", "m_nPlayerCondEx");
 	M_NETVAR(m_nPlayerCondEx2, int, "CTFPlayer", "m_nPlayerCondEx2");

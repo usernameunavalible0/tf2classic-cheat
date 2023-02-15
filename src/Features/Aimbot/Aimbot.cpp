@@ -4,10 +4,10 @@ void CAimbot::Run(C_BaseEntity* pLocal, CUserCmd* pCommand)
 {
 	//gCvars.iAimbotIndex = -1;
 
-	if (!Vars::Aimbot::Enabled)
+	if (!Vars::Aimbot::Enabled.m_Var)
 		return;
 
-	if (!GetAsyncKeyState(Vars::Aimbot::AimKey))
+	if (!GetAsyncKeyState(Vars::Aimbot::AimKey.m_Var))
 		return;
 
 	C_BaseCombatWeapon* pWeapon = pLocal->GetActiveWeapon();
@@ -35,7 +35,7 @@ void CAimbot::Run(C_BaseEntity* pLocal, CUserCmd* pCommand)
 	ClampAngle(vAngs);
 	//gCvars.iAimbotIndex = pEntity->GetIndex();
 
-	if (Vars::Aimbot::SilentAim)
+	if (Vars::Aimbot::SilentAim.m_Var)
 	{
 		FixMovement(vAngs, pCommand);
 		pCommand->viewangles = vAngs;
@@ -46,7 +46,7 @@ void CAimbot::Run(C_BaseEntity* pLocal, CUserCmd* pCommand)
 		I::EngineClient->SetViewAngles(pCommand->viewangles);
 	}
 
-	if (Vars::Aimbot::Autoshoot)
+	if (Vars::Aimbot::Autoshoot.m_Var)
 		pCommand->buttons |= IN_ATTACK;
 }
 
@@ -85,10 +85,10 @@ int CAimbot::GetBestTarget(C_BaseEntity* pLocal, C_BaseCombatWeapon* pWeapon)
 		//if (!gCvars.PlayerMode[i])
 		//	continue;
 
-		if (Vars::Aimbot::IgnoreInvulnerable && pEntity->IsInvulnerable())
+		if (Vars::Aimbot::IgnoreInvulnerable.m_Var && pEntity->IsInvulnerable())
 			continue;
 
-		if (Vars::Aimbot::IgnoreCloaked && pEntity->IsCloaked())
+		if (Vars::Aimbot::IgnoreCloaked.m_Var && pEntity->IsCloaked())
 			continue;
 
 		float flDistToTarget = (vLocal - vEntity).Lenght();
@@ -110,7 +110,7 @@ int CAimbot::GetBestHitbox(C_BaseEntity* pLocal, C_BaseEntity* pEntity)
 {
 	int iBestHitbox = -1;
 
-	if (!Vars::Aimbot::Hitbox)
+	if (!Vars::Aimbot::Hitbox.m_Var)
 	{
 		if (pLocal->m_iClass() == TF_CLASS_SNIPER)
 			iBestHitbox = 0;
@@ -119,10 +119,10 @@ int CAimbot::GetBestHitbox(C_BaseEntity* pLocal, C_BaseEntity* pEntity)
 	}
 	else
 	{
-		iBestHitbox = Vars::Aimbot::Hitbox - 1;
+		iBestHitbox = Vars::Aimbot::Hitbox.m_Var - 1;
 	}
 
-	if (Vars::Aimbot::Enabled)
+	if (Vars::Aimbot::Enabled.m_Var)
 	{
 		for (int i = 0; i < 17; i++)
 		{

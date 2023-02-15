@@ -148,6 +148,8 @@
     <ClCompile Include="src\Entry\Entry.cpp" />
     <ClCompile Include="src\Features\Aimbot\Aimbot.cpp" />
     <ClCompile Include="src\Features\ESP\ESP.cpp" />
+    <ClCompile Include="src\Features\Menu\InputHelper\InputHelper.cpp" />
+    <ClCompile Include="src\Features\Menu\Menu.cpp" />
     <ClCompile Include="src\Features\Misc\Misc.cpp" />
     <ClCompile Include="src\Hooks\Hooks.cpp" />
     <ClCompile Include="src\SDK\DrawManager\DrawManager.cpp" />
@@ -167,6 +169,8 @@
     <ClInclude Include="src\Entry\Entry.h" />
     <ClInclude Include="src\Features\Aimbot\Aimbot.h" />
     <ClInclude Include="src\Features\ESP\ESP.h" />
+    <ClInclude Include="src\Features\Menu\InputHelper\InputHelper.h" />
+    <ClInclude Include="src\Features\Menu\Menu.h" />
     <ClInclude Include="src\Features\Misc\Misc.h" />
     <ClInclude Include="src\Features\Vars.h" />
     <ClInclude Include="src\Hooks\Hooks.h" />

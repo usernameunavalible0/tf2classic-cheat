@@ -21,7 +21,7 @@ std::wstring CESP::ConvertUtf8ToWide(const std::string& str)
 
 bool CESP::ShouldRun()
 {
-	if (!bActive)
+	if (!Vars::ESP::Enabled.m_Var)
 		return false;
 
 	if (!I::EngineClient->IsInGame() || !I::EngineClient->IsConnected() || I::EngineClient->Con_IsVisible())
@@ -135,7 +135,7 @@ void CESP::Paint()
 		if (!ShouldRun())
 			return;
 
-		if (bPlayers)
+		if (Vars::ESP::Players::Enabled.m_Var)
 		{
 			for (int n = 1; n < I::ClientEntityList->GetHighestEntityIndex(); n++)
 			{
@@ -155,12 +155,8 @@ void CESP::Paint()
 
 				bool bIsFriend = false;
 
-				switch (nNoTeammatePlayers)
-				{
-				case 0: { break; }
-				case 1: { if (Player->InLocalTeam()) { continue; } break; }
-				case 2: { if (Player->InLocalTeam() && !bIsFriend) { continue; } break; }
-				}
+				if (Vars::ESP::Players::Teammates.m_Var && Player->InLocalTeam())
+					continue;
 
 				int x = 0, y = 0, w = 0, h = 0;
 
@@ -172,7 +168,7 @@ void CESP::Paint()
 					int nTextX = ((x + w) + 3);
 					int nTextOffset = 0;
 
-					if (bPlayerName)
+					if (Vars::ESP::Players::Name.m_Var)
 					{
 						PlayerInfo_t PlayerInfo = {};
 
@@ -185,13 +181,13 @@ void CESP::Paint()
 						}
 					}
 
-					if (bPlayerHealth)
+					if (Vars::ESP::Players::Health.m_Var)
 					{
 						G::Draw.String(EFonts::ESP, nTextX, (y + nTextOffset), HealthColor, TXT_DEFAULT, "%d/%d", Player->GetHealth(), Player->GetMaxHealth());
 						nTextOffset += G::Draw.m_Fonts.at(EFonts::ESP).m_nTall;
 					}
 
-					if (bPlayerHealthBar)
+					if (Vars::ESP::Players::HealthBar.m_Var)
 					{
 						x -= 1;
 
@@ -204,26 +200,27 @@ void CESP::Paint()
 
 						const float ratio = (flHealth / flMaxHealth);
 						G::Draw.Rect(static_cast<int>(((x - nWidth) - 2)), static_cast<int>((y + nHeight - (nHeight * ratio))), nWidth, static_cast<int>((nHeight * ratio)), HealthColor);
-						G::Draw.OutlinedRect(static_cast<int>(((x - nWidth) - 2) - 1), static_cast<int>((y + nHeight - (nHeight * ratio)) - 1), nWidth + 2, static_cast<int>((nHeight * ratio) + 1), {0, 0, 0, 255});
+						if (Vars::ESP::Outline.m_Var)
+							G::Draw.OutlinedRect(static_cast<int>(((x - nWidth) - 2) - 1), static_cast<int>((y + nHeight - (nHeight * ratio)) - 1), nWidth + 2, static_cast<int>((nHeight * ratio) + 1), {0, 0, 0, 255});
 
 						x += 1;
 					}
 
-					if (nPlayerBox)
+					if (Vars::ESP::Players::Box.m_Var)
 					{
-						if (nPlayerBox == 1)
+						if (Vars::ESP::Players::Box.m_Var == 1)
 						{
 							int height = (h + 1); //don't ask me /shrug
 
 							G::Draw.OutlinedRect(x, y, w, height, DrawColor);
-							if (bOutline)
+							if (Vars::ESP::Outline.m_Var)
 								G::Draw.OutlinedRect((x - 1), (y - 1), (w + 2), (height + 2), OutlineColor);
 						}
 
-						else if (nPlayerBox == 2)
+						else if (Vars::ESP::Players::Box.m_Var == 2)
 						{
 							G::Draw.CornerRect(x, y, w, h, 3, 5, DrawColor);
-							if (bOutline)
+							if (Vars::ESP::Outline.m_Var)
 								G::Draw.CornerRect((x - 1), (y - 1), (w + 2), (h + 2), 3, 5, OutlineColor);
 						}
 					}

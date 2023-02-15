@@ -2,6 +2,7 @@
 #include "../Features/Misc/Misc.h"
 #include "../Features/ESP/ESP.h"
 #include "../Features/Aimbot/Aimbot.h"
+#include "../Features/Menu/Menu.h"
 
 void H::Initialize()
 {
@@ -44,7 +45,28 @@ void H::Initialize()
 		reinterpret_cast<void**>(&PaintPanelOriginal)
 	);
 
+	MH_CreateHook(
+		(*reinterpret_cast<void***>(I::Surface))[111],
+		&OSSC_Hook,
+		reinterpret_cast<void**>(&OSSC_Original)
+	);
+
+	MH_CreateHook(
+		(*reinterpret_cast<void***>(I::Surface))[62],
+		&LockCursorHook,
+		reinterpret_cast<void**>(&LockCursorOriginal)
+	);
+
 	MH_EnableHook(MH_ALL_HOOKS);
+
+	//WndProc
+	while (!WndProc::hwGame)
+	{
+		WndProc::hwGame = FindWindowW(nullptr, L"Team Fortress 2 Classic");
+		Sleep(100);
+	}
+
+	WndProc::oWndProc = reinterpret_cast<WNDPROC>(SetWindowLongW(WndProc::hwGame, GWL_WNDPROC, reinterpret_cast<LONG>(WndProc::Detour)));
 }
 
 void H::Uninitialize()
@@ -52,6 +74,10 @@ void H::Uninitialize()
 	MH_DisableHook(MH_ALL_HOOKS);
 	MH_RemoveHook(MH_ALL_HOOKS);
 	MH_Uninitialize();
+
+	//WndProc
+	if (WndProc::oWndProc)
+		SetWindowLongW(WndProc::hwGame, GWL_WNDPROC, reinterpret_cast<LONG>(WndProc::oWndProc));
 }
 
 bool __stdcall H::CreateMoveHook(float frameTime, CUserCmd* cmd)
@@ -64,7 +90,9 @@ bool __stdcall H::CreateMoveHook(float frameTime, CUserCmd* cmd)
 
 	if (pLocal && !pLocal->IsDormant() && pLocal->IsAlive())
 	{
-		F::Misc.Bunnyhop(pLocal, cmd);
+		if (Vars::Misc::Bunnyhop.m_Var)
+			F::Misc.Bunnyhop(pLocal, cmd);
+
 		F::Aimbot.Run(pLocal, cmd);
 	}
 
@@ -86,9 +114,11 @@ void __stdcall H::PaintHook(int mode)
 		StartDrawing(I::Surface);
 		{
 			//Draw Here
-			G::Draw.String(EFonts::DEBUG, 5, 5, { 204, 204, 204, 255 }, TXT_DEFAULT, L"Team Fortress 2: Classic");
+			if (!F::Menu.m_bOpen)
+				G::Draw.String(EFonts::DEBUG, 5, 5, { 204, 204, 204, 255 }, TXT_DEFAULT, L"Team Fortress 2: Classic");
 
 			F::ESP.Paint();
+			F::Menu.Run();
 		}
 		FinishDrawing(I::Surface);
 	}
@@ -143,7 +173,20 @@ void __stdcall H::PaintPanelHook(VPANEL vguiPanel, bool force_repaint, bool allo
 	PaintPanelOriginal(I::Panel, vguiPanel, force_repaint, allow_force);
 }
 
-void __fastcall H::PlayerViewHook(C_BaseEntity* pThis, void* edx, Vector& eyeOrigin, Vector& eyeAngles, float& fov)
+void __stdcall H::OSSC_Hook(int oldWidth, int oldHeight)
 {
-	PlayerViewOriginal(pThis, edx, eyeOrigin, eyeAngles, fov);
+	OSSC_Original(I::Surface, oldWidth, oldHeight);
+
+	G::Draw.ReloadScreenSize();
+	G::Draw.ReloadFonts();
+}
+
+void __stdcall H::LockCursorHook()
+{
+	F::Menu.m_bOpen ? I::Surface->UnlockCursor() : LockCursorOriginal(I::Surface);
+}
+
+LRESULT CALLBACK H::WndProc::Detour(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+{
+	return (F::Menu.m_bOpen && (I::EngineVGui->IsGameUIVisible() || F::Menu.m_bTyping)) ? 1u : CallWindowProcW(oWndProc, hwnd, uMsg, wParam, lParam);
 }

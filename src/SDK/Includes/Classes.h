@@ -9,6 +9,8 @@ enum StereoEye_t
 	STEREO_EYE_MAX = 3,
 };
 
+struct Rect_t { int x, y, w, h; };
+
 enum
 {
 	TF_CLASS_UNDEFINED = 0,
