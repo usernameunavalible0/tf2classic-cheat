@@ -80,6 +80,9 @@ namespace Vars
 	namespace Visuals
 	{
 		inline CVar<bool> ToolTips{ false, L"Menu tooltips" };
+		inline CVar<bool> RemoveScope{ true, L"Remove Scope" };
+		inline CVar<bool> RemoveZoom{ true, L"Remove Zoom" };
+		inline CVar<int> FieldOfView{ 110, L"Field Of View" };
 	}
 
 	namespace Misc

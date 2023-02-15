@@ -3,6 +3,7 @@
 #include "../Features/ESP/ESP.h"
 #include "../Features/Aimbot/Aimbot.h"
 #include "../Features/Menu/Menu.h"
+#include "../Features/Visuals/Visuals.h"
 
 void H::Initialize()
 {
@@ -55,6 +56,18 @@ void H::Initialize()
 		(*reinterpret_cast<void***>(I::Surface))[62],
 		&LockCursorHook,
 		reinterpret_cast<void**>(&LockCursorOriginal)
+	);
+
+	MH_CreateHook(
+		(*reinterpret_cast<void***>(I::ClientMode))[24],
+		&SDVM_Hook,
+		reinterpret_cast<void**>(&SDVM_Original)
+	);
+
+	MH_CreateHook(
+		(*reinterpret_cast<void***>(I::ClientMode))[16],
+		&OverrideViewHook,
+		reinterpret_cast<void**>(&OverrideViewOriginal)
 	);
 
 	MH_EnableHook(MH_ALL_HOOKS);
@@ -167,7 +180,7 @@ void __stdcall H::FrameStageNotifyHook(ClientFrameStage_t frameStage)
 
 void __stdcall H::PaintPanelHook(VPANEL vguiPanel, bool force_repaint, bool allow_force)
 {
-	if (!strcmp("HudScope", I::Panel->GetName(vguiPanel)))
+	if (Vars::Visuals::RemoveScope.m_Var && !strcmp("HudScope", I::Panel->GetName(vguiPanel)))
 		return;
 
 	PaintPanelOriginal(I::Panel, vguiPanel, force_repaint, allow_force);
@@ -184,6 +197,24 @@ void __stdcall H::OSSC_Hook(int oldWidth, int oldHeight)
 void __stdcall H::LockCursorHook()
 {
 	F::Menu.m_bOpen ? I::Surface->UnlockCursor() : LockCursorOriginal(I::Surface);
+}
+
+bool __stdcall H::SDVM_Hook()
+{
+	C_BaseEntity* pLocal = static_cast<C_BaseEntity*>(I::ClientEntityList->GetClientEntity(g_Globals.m_nLocalIndex));
+	if (pLocal && !pLocal->IsDormant() && pLocal->IsAlive())
+	{
+		if (pLocal->IsScoped() && Vars::Visuals::RemoveScope.m_Var && Vars::Visuals::RemoveZoom.m_Var)
+			return true;
+	}
+
+	return SDVM_Original(I::ClientMode);
+}
+
+void __stdcall H::OverrideViewHook(CViewSetup* pSetup)
+{
+	OverrideViewOriginal(I::ClientMode, pSetup);
+	F::Visuals.FOV(pSetup);
 }
 
 LRESULT CALLBACK H::WndProc::Detour(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)

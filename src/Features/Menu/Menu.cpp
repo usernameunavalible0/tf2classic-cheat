@@ -611,6 +611,9 @@ void CMenu::Run()
 			GroupBoxStart();
 			{
 				CheckBox(Vars::Visuals::ToolTips, L"Should we enable informational menu tooltips?");
+				CheckBox(Vars::Visuals::RemoveScope, L"Should we remove the sniper scope?");
+				CheckBox(Vars::Visuals::RemoveZoom, L"Should we remove sniper aim zooming?");
+				InputInt(Vars::Visuals::FieldOfView, 70, 140);
 			}
 			GroupBoxEnd(L"Visuals", 180);
 

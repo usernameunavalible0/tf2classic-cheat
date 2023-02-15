@@ -70,6 +70,8 @@ public:
 	M_NETVAR(m_nPlayerCondEx2, int, "CTFPlayer", "m_nPlayerCondEx2");
 	M_NETVAR(m_nPlayerCondEx3, int, "CTFPlayer", "m_nPlayerCondEx3");
 	M_NETVAR(m_nPlayerCondEx4, int, "CTFPlayer", "m_nPlayerCondEx4");
+	M_NETVAR(GetObserverMode, int, "CBasePlayer", "m_iObserverMode");
+	M_NETVAR(m_iFOV, int, "CBasePlayer", "m_iFOV");
 
 	inline C_BaseCombatWeapon* GetActiveWeapon()
 	{
@@ -182,6 +184,11 @@ public:
 			|| InCond(TF_COND_STEALTHED_BLINK)
 			|| InCond(TF_COND_STEALTHED_USER_BUFF)
 			|| InCond(TF_COND_STEALTHED_USER_BUFF_FADING);
+	}
+
+	inline bool IsScoped()
+	{
+		return InCond(TF_COND_ZOOMED);
 	}
 
 	/*inline Vector EyePosition()

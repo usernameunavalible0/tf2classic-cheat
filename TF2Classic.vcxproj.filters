@@ -66,6 +66,9 @@
     <ClCompile Include="src\Features\Menu\Menu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Features\Visuals\Visuals.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ext\MinHook\hde\hde32.h">
@@ -219,6 +222,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Features\Menu\Menu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Features\Visuals\Visuals.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

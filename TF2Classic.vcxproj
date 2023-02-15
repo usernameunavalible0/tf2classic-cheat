@@ -151,6 +151,7 @@
     <ClCompile Include="src\Features\Menu\InputHelper\InputHelper.cpp" />
     <ClCompile Include="src\Features\Menu\Menu.cpp" />
     <ClCompile Include="src\Features\Misc\Misc.cpp" />
+    <ClCompile Include="src\Features\Visuals\Visuals.cpp" />
     <ClCompile Include="src\Hooks\Hooks.cpp" />
     <ClCompile Include="src\SDK\DrawManager\DrawManager.cpp" />
     <ClCompile Include="src\SDK\NetVarManager\NetVarManager.cpp" />
@@ -173,6 +174,7 @@
     <ClInclude Include="src\Features\Menu\Menu.h" />
     <ClInclude Include="src\Features\Misc\Misc.h" />
     <ClInclude Include="src\Features\Vars.h" />
+    <ClInclude Include="src\Features\Visuals\Visuals.h" />
     <ClInclude Include="src\Hooks\Hooks.h" />
     <ClInclude Include="src\SDK\DrawManager\DrawManager.h" />
     <ClInclude Include="src\SDK\Globals\Globals.h" />

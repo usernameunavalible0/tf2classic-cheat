@@ -39,6 +39,14 @@ namespace H
 	static LockCursor LockCursorOriginal = nullptr;
 	void __stdcall LockCursorHook();
 
+	using ShouldDrawViewModel = bool(__thiscall*)(void*);
+	static ShouldDrawViewModel SDVM_Original = nullptr;
+	bool __stdcall SDVM_Hook();
+
+	using OverrideView = void(__thiscall*)(void*, CViewSetup*);
+	static OverrideView OverrideViewOriginal = nullptr;
+	void __stdcall OverrideViewHook(CViewSetup* pSetup);
+
 	namespace WndProc
 	{
 		inline WNDPROC oWndProc = nullptr;
