@@ -323,6 +323,9 @@ void CESP::Paint()
 
 				case ETFClassIds::CTFAmmoPack:
 				{
+					if (!Vars::ESP::DrawHealthAndAmmo.m_Var)
+						break;
+
 					C_BaseEntity* pAmmoPack = static_cast<C_BaseEntity*>(pEntity);
 
 					Vector2D sPos;
@@ -336,6 +339,9 @@ void CESP::Paint()
 
 				case ETFClassIds::CBaseAnimating:
 				{
+					if (!Vars::ESP::DrawHealthAndAmmo.m_Var)
+						break;
+
 					C_BaseEntity* pAnimated = static_cast<C_BaseEntity*>(pEntity);
 
 					const int nModelIndex = pAnimated->m_nModelIndex();
