@@ -139,6 +139,11 @@ public:
 	RecvTable* m_pRecvTable;
 	ClientClass* m_pNext;
 	int						m_ClassID;	// Managed by the engine.
+
+	inline ETFClassIds GetClassID()
+	{
+		return static_cast<ETFClassIds>(m_ClassID);
+	}
 };
 
 #endif // ICLIENTNETWORKABLE_H

@@ -10,22 +10,29 @@ void CAimbot::Run(C_BaseEntity* pLocal, CUserCmd* pCommand)
 	if (!GetAsyncKeyState(Vars::Aimbot::AimKey.m_Var))
 		return;
 
-	C_BaseCombatWeapon* pWeapon = pLocal->GetActiveWeapon();
-
-	if (!pWeapon)
+	if (!pLocal->GetActiveWeapon())
 		return;
 
-	C_BaseEntity* pEntity = static_cast<C_BaseEntity*>(I::ClientEntityList->GetClientEntity(GetBestTarget(pLocal, pWeapon)));
+	C_BaseEntity* pEntity = static_cast<C_BaseEntity*>(I::ClientEntityList->GetClientEntity(GetBestTarget(pLocal, pLocal->GetActiveWeapon())));
 
 	if (!pEntity)
 		return;
 
-	int iBestHitbox = GetBestHitbox(pLocal, pEntity);
+	Vector vEntity = {};
 
-	if (iBestHitbox == -1)
-		return;
+	if (pEntity->IsPlayer())
+	{
+		int iBestHitbox = GetBestHitbox(pLocal, pEntity);
 
-	Vector vEntity; pEntity->GetHitboxPosition(iBestHitbox, vEntity);
+		if (iBestHitbox == -1)
+			return;
+
+		vEntity; pEntity->GetHitboxPosition(iBestHitbox, vEntity);
+	}
+	else
+	{
+		vEntity = pEntity->WorldSpaceCenter();
+	}
 
 	Vector vLocal = pLocal->EyePosition();
 
@@ -56,51 +63,82 @@ int CAimbot::GetBestTarget(C_BaseEntity* pLocal, C_BaseCombatWeapon* pWeapon)
 	//this num could be smaller 
 	float flDistToBest = 99999.f;
 
+	Vector vEntity = {};
 	Vector vLocal = pLocal->EyePosition();
 
-	for (int i = 1; i <= I::EngineClient->GetMaxClients(); i++)
+	for (int n = 1; n <= g_Globals.m_nMaxEntities; n++)
 	{
-		if (i == pLocal->entindex())
+		if (n == g_Globals.m_nLocalIndex)
 			continue;
 
-		C_BaseEntity* pEntity = static_cast<C_BaseEntity*>(I::ClientEntityList->GetClientEntity(i));
+		IClientEntity* pEntity = I::ClientEntityList->GetClientEntity(n);
 
-		if (!pEntity)
+		if (!pEntity || pEntity->IsDormant())
 			continue;
 
-		if (pEntity->IsDormant())
+		ClientClass* pCC = pEntity->GetClientClass();
+
+		if (!pCC)
 			continue;
 
-		if (!pEntity->IsAlive() ||
-			pEntity->InLocalTeam())
-			continue;
+		switch (pCC->GetClassID())
+		{
+			case ETFClassIds::CTFPlayer:
+			{
+				if (!Vars::Aimbot::AimPlayer.m_Var)
+					continue;
+					
+				C_BaseEntity* pPlayer = static_cast<C_BaseEntity*>(pEntity);
+	
+				if (!pPlayer->IsAlive() || pPlayer->InLocalTeam())
+					continue;
+	
+				int iBestHitbox = GetBestHitbox(pLocal, pPlayer);
+	
+				if (iBestHitbox == -1)
+					continue;
 
-		int iBestHitbox = GetBestHitbox(pLocal, pEntity);
+				pPlayer->GetHitboxPosition(iBestHitbox, vEntity); //pEntity->GetWorldSpaceCenter(vEntity);
 
-		if (iBestHitbox == -1)
-			continue;
+				if (Vars::Aimbot::IgnoreInvulnerable.m_Var && pPlayer->IsInvulnerable())
+					continue;
 
-		Vector vEntity; pEntity->GetHitboxPosition(iBestHitbox, vEntity); //pEntity->GetWorldSpaceCenter(vEntity);
+				if (Vars::Aimbot::IgnoreCloaked.m_Var && pPlayer->IsCloaked())
+					continue;
 
-		//if (!gCvars.PlayerMode[i])
-		//	continue;
+				break;
+			}
 
-		if (Vars::Aimbot::IgnoreInvulnerable.m_Var && pEntity->IsInvulnerable())
-			continue;
+			case ETFClassIds::CObjectTeleporter:
+			case ETFClassIds::CObjectDispenser:
+			case ETFClassIds::CObjectSentrygun:
+			{
+				if (!Vars::Aimbot::AimBuildings.m_Var)
+					continue;
 
-		if (Vars::Aimbot::IgnoreCloaked.m_Var && pEntity->IsCloaked())
-			continue;
+				C_BaseEntity* pBuilding = static_cast<C_BaseEntity*>(pEntity);
+
+				if (!pBuilding->IsAlive() || pBuilding->InLocalTeam())
+					continue;
+
+				if (!VisPosPlayer(pLocal, pBuilding, pLocal->EyePosition(), pBuilding->WorldSpaceCenter()))
+					continue;
+
+				vEntity = pBuilding->WorldSpaceCenter();
+
+				break;
+			}
+
+			default: continue;
+		}
 
 		float flDistToTarget = (vLocal - vEntity).Lenght();
 
 		if (flDistToTarget < flDistToBest)
 		{
 			flDistToBest = flDistToTarget;
-			iBestTarget = i;
+			iBestTarget = n;
 		}
-
-		//if (gCvars.PlayerMode[i] == 2) //always aim at rage targets first
-		//	return i;
 	}
 
 	return iBestTarget;
@@ -146,6 +184,9 @@ int CAimbot::GetBestHitbox(C_BaseEntity* pLocal, C_BaseEntity* pEntity)
 	if (!pEntity->GetHitboxPosition(iBestHitbox, vBestHitbox2))
 		return -1;
 	
+	if (vBestHitbox2.IsZero())
+		return -1;
+
 	if (!VisPosPlayer(pLocal, pEntity, pLocal->EyePosition(), vBestHitbox2))
 		return -1;
 

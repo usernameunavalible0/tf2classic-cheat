@@ -23,6 +23,12 @@ class C_BaseCombatWeapon;
 class C_BaseEntity : public IClientEntity
 {
 public:
+	inline Vector WorldSpaceCenter()
+	{
+		float* flRet = VFunc_Get<float*(__thiscall*)(void*)>(this, 66u)(this);
+		Vector vRet = Vector(flRet[0], flRet[1], flRet[2]);
+		return vRet;
+	}
 
 	inline bool InLocalTeam()
 	{
@@ -72,6 +78,7 @@ public:
 	M_NETVAR(m_nPlayerCondEx4, int, "CTFPlayer", "m_nPlayerCondEx4");
 	M_NETVAR(GetObserverMode, int, "CBasePlayer", "m_iObserverMode");
 	M_NETVAR(m_iFOV, int, "CBasePlayer", "m_iFOV");
+	M_NETVAR(m_nModelIndex, int, "CBaseEntity", "m_nModelIndex");
 
 	inline C_BaseCombatWeapon* GetActiveWeapon()
 	{

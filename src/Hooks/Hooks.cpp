@@ -142,6 +142,26 @@ void __stdcall H::PostEntityHook()
 	PostEntityOriginal(I::Client);
 
 	g_Globals.m_nLocalIndex = I::EngineClient->GetLocalPlayer();
+
+	F::ESP.m_vecAmmo.clear();
+	{
+		F::ESP.m_vecAmmo.push_back(I::ModelInfo->GetModelIndex("models/items/ammopack_large.mdl"));
+		F::ESP.m_vecAmmo.push_back(I::ModelInfo->GetModelIndex("models/items/ammopack_large_bday.mdl"));
+		F::ESP.m_vecAmmo.push_back(I::ModelInfo->GetModelIndex("models/items/ammopack_medium.mdl"));
+		F::ESP.m_vecAmmo.push_back(I::ModelInfo->GetModelIndex("models/items/ammopack_medium_bday.mdl"));
+		F::ESP.m_vecAmmo.push_back(I::ModelInfo->GetModelIndex("models/items/ammopack_small.mdl"));
+		F::ESP.m_vecAmmo.push_back(I::ModelInfo->GetModelIndex("models/items/ammopack_small_bday.mdl"));
+	}
+
+	F::ESP.m_vecHealth.clear();
+	{
+		F::ESP.m_vecHealth.push_back(I::ModelInfo->GetModelIndex("models/items/medkit_large.mdl"));
+		F::ESP.m_vecHealth.push_back(I::ModelInfo->GetModelIndex("models/items/medkit_large_bday.mdl"));
+		F::ESP.m_vecHealth.push_back(I::ModelInfo->GetModelIndex("models/items/medkit_medium.mdl"));
+		F::ESP.m_vecHealth.push_back(I::ModelInfo->GetModelIndex("models/items/medkit_medium_bday.mdl"));
+		F::ESP.m_vecHealth.push_back(I::ModelInfo->GetModelIndex("models/items/medkit_small.mdl"));
+		F::ESP.m_vecHealth.push_back(I::ModelInfo->GetModelIndex("models/items/medkit_small_bday.mdl"));
+	}
 }
 
 void __stdcall H::LevelShutdownHook()

@@ -55,6 +55,8 @@ namespace Vars
 		inline CVar<int> Hitbox{ 0, L"Hitbox Num" };
 		inline CVar<bool> Autoshoot{ true, L"Autoshoot" };
 		inline CVar<int> AimKey{ VK_SHIFT, L"Aim Key" };
+		inline CVar<bool> AimPlayer{ true, L"Aim Players" };
+		inline CVar<bool> AimBuildings{ true, L"Aim Buildings" };
 		inline CVar<bool> SilentAim{ true, L"Silent Aim" };
 		inline CVar<bool> IgnoreInvulnerable{ true, L"Ignore Invulnerable" };
 		inline CVar<bool> IgnoreCloaked{ true, L"Ignore Cloaked" };
@@ -64,16 +66,27 @@ namespace Vars
 	{
 		inline CVar<bool> Enabled{ true, L"Enabled" };
 		inline CVar<bool> Outline{ false, L"Outline" };
+		inline CVar<bool> DrawHealthAndAmmo{ true, L"Draw Health and Ammo" };
 
 		namespace Players
 		{
 			inline CVar<bool> Enabled{ true, L"Enabled" };
-			inline CVar<bool> Teammates{ true, L"Draw Teammates" };
+			inline CVar<bool> Teammates{ false, L"Draw Teammates" };
 			inline CVar<bool> Name{ true, L"Name Text" };
 			//inline CVar<bool> Class{ true, L"Class" };
 			inline CVar<bool> Health{ false, L"Health Text" };
 			inline CVar<bool> HealthBar{ true, L"Health Bar" };
 			inline CVar<int> Box{ 2, L"Box" };
+		}
+
+		namespace Buildings
+		{
+			inline CVar<bool> Enabled{ true, L"Enabled" };
+			inline CVar<bool> Type{ true, L"Building Type" };
+			inline CVar<bool> LocalTeam{ true, L"Draw Local Team" };
+			inline CVar<bool> Health{ true, L"Health Text" };
+			inline CVar<bool> HealthBar{ false, L"Health Bar" };
+			inline CVar<int> Box{ 0, L"Box" };
 		}
 	}
 

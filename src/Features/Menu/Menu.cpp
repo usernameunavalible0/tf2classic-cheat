@@ -581,6 +581,8 @@ void CMenu::Run()
 				//no one cares about hitbox customization
 				CheckBox(Vars::Aimbot::Autoshoot, L"Should aimbot automaticly shoot players?");
 				InputKey(Vars::Aimbot::AimKey);
+				CheckBox(Vars::Aimbot::AimPlayer, L"Should we aim at players");
+				CheckBox(Vars::Aimbot::AimBuildings, L"Should we aim at buildings");
 				CheckBox(Vars::Aimbot::SilentAim, L"Should we enable silent aimbot?");
 				CheckBox(Vars::Aimbot::IgnoreInvulnerable, L"Ignore Invulnerable Players?");
 				CheckBox(Vars::Aimbot::IgnoreCloaked, L"Should we ignore cloaked spys?");
@@ -591,6 +593,7 @@ void CMenu::Run()
 			{
 				CheckBox(Vars::ESP::Enabled, L"Main ESP Switch");
 				CheckBox(Vars::ESP::Outline, L"Drawing outline switch");
+				CheckBox(Vars::ESP::DrawHealthAndAmmo, L"Should we draw text to label health and ammo packs?");
 			}
 			GroupBoxEnd(L"ESP", 180);
 
@@ -604,6 +607,17 @@ void CMenu::Run()
 				ComboBox(Vars::ESP::Players::Box, { {0, L"Off"}, {1, L"Basic Box"}, {2, L"Corners Only"} });
 			}
 			GroupBoxEnd(L"Player ESP", 180);
+
+			GroupBoxStart();
+			{
+				CheckBox(Vars::ESP::Buildings::Enabled, L"Building ESP Switch");
+				CheckBox(Vars::ESP::Buildings::Type, L"text to show what kind of building you are looking at");
+				CheckBox(Vars::ESP::Buildings::LocalTeam, L"Should we draw the local team?");
+				CheckBox(Vars::ESP::Buildings::Health, L"Text to show building health");
+				CheckBox(Vars::ESP::Buildings::HealthBar, L"Bar to show building health");
+				ComboBox(Vars::ESP::Buildings::Box, { {0, L"Off"}, {1, L"Basic Box"}, {2, L"Corners Only"} });
+			}
+			GroupBoxEnd(L"Building ESP", 180);
 
 			checkpoint.x += 180 + Vars::Menu::SpacingX;
 			m_LastWidget = checkpoint;

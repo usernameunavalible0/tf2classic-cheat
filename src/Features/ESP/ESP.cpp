@@ -8,7 +8,6 @@ Color CloakColor = { 165, 177, 194, 255 };
 Color FriendColor = { 152, 255, 152, 255 };
 Color OverhealColor = { 84, 160, 255, 255 };
 
-Color HealthColor = { 0, 230, 64, 255 };
 Color AmmoColor = { 191, 191, 191, 255 };
 
 std::wstring CESP::ConvertUtf8ToWide(const std::string& str)
@@ -135,73 +134,83 @@ void CESP::Paint()
 		if (!ShouldRun())
 			return;
 
+		int x, y, w, h;
 		if (Vars::ESP::Players::Enabled.m_Var)
 		{
-			for (int n = 1; n < I::ClientEntityList->GetHighestEntityIndex(); n++)
+			for (int n = 1; n <= g_Globals.m_nMaxEntities; n++)
 			{
-				C_BaseEntity* Player = static_cast<C_BaseEntity*>(I::ClientEntityList->GetClientEntity(n));
-
-				if (!Player || Player->IsDormant())
+				if (n == g_Globals.m_nLocalIndex)
 					continue;
 
-				if (!Player->IsPlayer() && !Player->IsNextBot() && !Player->IsNPC())
+				IClientEntity* pEntity = I::ClientEntityList->GetClientEntity(n);
+
+				if (!pEntity || pEntity->IsDormant())
 					continue;
 
-				if (Player == pLocal)
+				ClientClass* pCC = pEntity->GetClientClass();
+
+				if (!pCC)
 					continue;
 
-				if (!Player->IsAlive())
-					continue;
-
-				bool bIsFriend = false;
-
-				if (Vars::ESP::Players::Teammates.m_Var && Player->InLocalTeam())
-					continue;
-
-				int x = 0, y = 0, w = 0, h = 0;
-
-				if (GetDrawBounds(Player, x, y, w, h))
+				switch (pCC->GetClassID())
 				{
-					Color DrawColor = GetDrawColor(pLocal, Player);
-					Color HealthColor = GetHealthColor(Player->GetHealth(), Player->GetMaxHealth());
+				case ETFClassIds::CTFPlayer:
+				{
+					if (!Vars::ESP::Players::Enabled.m_Var)
+						break;
 
-					int nTextX = ((x + w) + 3);
-					int nTextOffset = 0;
+					C_BaseEntity* pPlayer = static_cast<C_BaseEntity*>(pEntity);
+
+					if (!pPlayer->IsAlive() || (!Vars::ESP::Players::Teammates.m_Var && pPlayer->InLocalTeam()))
+						break;
+
+					if (!GetDrawBounds(pPlayer, x, y, w, h))
+						break;
+
+					const int nHealth = pPlayer->GetHealth();
+					const int nMaxHealth = pPlayer->GetMaxHealth();
+
+					const Color clrHealth = GetHealthColor(nHealth, nMaxHealth);
+					const Color clrTeam = GetTeamColor(pPlayer->GetTeamNumber());
+
+					const int nDrawX = (x + w) + 3;
+					int nDrawY = y;
 
 					if (Vars::ESP::Players::Name.m_Var)
 					{
 						PlayerInfo_t PlayerInfo = {};
 
-						if (I::EngineClient->GetPlayerInfo(Player->entindex(), &PlayerInfo))
+						if (I::EngineClient->GetPlayerInfo(pPlayer->entindex(), &PlayerInfo))
 						{
 							auto str = ConvertUtf8ToWide(PlayerInfo.name);
 
-							int offset = G::Draw.m_Fonts.at(EFonts::ESP).m_nTall;
-							G::Draw.String(EFonts::ESP_NAME, (x + (w / 2)), (y - offset), DrawColor, TXT_CENTERXY, str.c_str());
+							int offset = G::Draw.m_Fonts.at(EFonts::ESP_NAME).m_nTall;
+							G::Draw.String(EFonts::ESP_NAME, (x + (w / 2)), (y - offset), clrTeam, TXT_CENTERX, str.c_str());
 						}
 					}
 
 					if (Vars::ESP::Players::Health.m_Var)
 					{
-						G::Draw.String(EFonts::ESP, nTextX, (y + nTextOffset), HealthColor, TXT_DEFAULT, "%d/%d", Player->GetHealth(), Player->GetMaxHealth());
-						nTextOffset += G::Draw.m_Fonts.at(EFonts::ESP).m_nTall;
+						G::Draw.String(EFonts::ESP, nDrawX, nDrawY, clrHealth, TXT_DEFAULT, "%d/%d", pPlayer->GetHealth(), pPlayer->GetMaxHealth());
+						nDrawY += G::Draw.m_Fonts.at(EFonts::ESP).m_nTall;
 					}
 
 					if (Vars::ESP::Players::HealthBar.m_Var)
 					{
 						x -= 1;
 
-						const float flMaxHealth = static_cast<float>(Player->GetMaxHealth());
-						const float flHealth = std::clamp<float>(static_cast<float>(Player->GetHealth()), 1.0f, flMaxHealth);
+						const float flMaxHealth = static_cast<float>(nMaxHealth);
+						const float flHealth = std::clamp<float>(static_cast<float>(nHealth), 1.0f, flMaxHealth);
 
 						static const int nWidth = 2;
 						const int nHeight = (h + (flHealth < flMaxHealth ? 2 : 1));
 						const int nHeight2 = (h + 1);
 
 						const float ratio = (flHealth / flMaxHealth);
-						G::Draw.Rect(static_cast<int>(((x - nWidth) - 2)), static_cast<int>((y + nHeight - (nHeight * ratio))), nWidth, static_cast<int>((nHeight * ratio)), HealthColor);
+						G::Draw.Rect(static_cast<int>(((x - nWidth) - 2)), static_cast<int>((y + nHeight - (nHeight * ratio))), nWidth, static_cast<int>((nHeight * ratio)), clrHealth);
+
 						if (Vars::ESP::Outline.m_Var)
-							G::Draw.OutlinedRect(static_cast<int>(((x - nWidth) - 2) - 1), static_cast<int>((y + nHeight - (nHeight * ratio)) - 1), nWidth + 2, static_cast<int>((nHeight * ratio) + 1), {0, 0, 0, 255});
+							G::Draw.OutlinedRect(static_cast<int>(((x - nWidth) - 2) - 1), static_cast<int>((y + nHeight - (nHeight * ratio)) - 1), nWidth + 2, static_cast<int>((nHeight * ratio) + 1), OutlineColor);
 
 						x += 1;
 					}
@@ -212,20 +221,168 @@ void CESP::Paint()
 						{
 							int height = (h + 1); //don't ask me /shrug
 
-							G::Draw.OutlinedRect(x, y, w, height, DrawColor);
+							G::Draw.OutlinedRect(x, y, w, height, clrTeam);
 							if (Vars::ESP::Outline.m_Var)
 								G::Draw.OutlinedRect((x - 1), (y - 1), (w + 2), (height + 2), OutlineColor);
 						}
 
 						else if (Vars::ESP::Players::Box.m_Var == 2)
 						{
-							G::Draw.CornerRect(x, y, w, h, 3, 5, DrawColor);
+							G::Draw.CornerRect(x, y, w, h, 3, 5, clrTeam);
 							if (Vars::ESP::Outline.m_Var)
 								G::Draw.CornerRect((x - 1), (y - 1), (w + 2), (h + 2), 3, 5, OutlineColor);
 						}
 					}
+
+					break;
+				}
+
+				case ETFClassIds::CObjectTeleporter:
+				case ETFClassIds::CObjectDispenser:
+				case ETFClassIds::CObjectSentrygun:
+				{
+					if (!Vars::ESP::Buildings::Enabled.m_Var)
+						break;
+
+					C_BaseEntity* pBuilding = static_cast<C_BaseEntity*>(pEntity);
+
+					if (!pBuilding->IsAlive() || (!Vars::ESP::Buildings::LocalTeam.m_Var && pBuilding->InLocalTeam()))
+						break;
+
+					if (!GetDrawBounds(pBuilding, x, y, w, h))
+						break;
+
+					const int nHealth = pBuilding->GetHealth();
+					const int nMaxHealth = pBuilding->GetMaxHealth();
+
+					const Color clrHealth = GetHealthColor(nHealth, nMaxHealth);
+					const Color clrTeam = GetTeamColor(pBuilding->GetTeamNumber());
+
+					const int nDrawX = x + (w / 2);
+					int nDrawY = y + (h / 2);
+
+					if (Vars::ESP::Buildings::Type.m_Var)
+					{
+						// this is probably bad method
+						if (pCC->m_ClassID == ETFClassIds::CObjectTeleporter)
+							G::Draw.String(EFonts::ESP_NAME, nDrawX, nDrawY, clrTeam, TXT_CENTERXY, L"teleporter");
+						else if (pCC->m_ClassID == ETFClassIds::CObjectDispenser)
+							G::Draw.String(EFonts::ESP_NAME, nDrawX, nDrawY, clrTeam, TXT_CENTERXY, L"dispenser");
+						else if (pCC->m_ClassID == ETFClassIds::CObjectSentrygun)
+							G::Draw.String(EFonts::ESP_NAME, nDrawX, nDrawY, clrTeam, TXT_CENTERXY, L"sentrygun");
+
+						nDrawY += G::Draw.m_Fonts.at(EFonts::ESP_NAME).m_nTall;
+					}
+
+					if (Vars::ESP::Buildings::Health.m_Var)
+					{
+						G::Draw.String(EFonts::ESP, nDrawX, nDrawY, clrHealth, TXT_CENTERXY, L"%i / %ihp", nHealth, nMaxHealth);
+						nDrawY += G::Draw.m_Fonts.at(EFonts::ESP).m_nTall;
+					}
+
+					if (Vars::ESP::Buildings::HealthBar.m_Var)
+					{
+						x -= 1;
+
+						const float flMaxHealth = static_cast<float>(nMaxHealth);
+						const float flHealth = std::clamp<float>(static_cast<float>(nHealth), 1.0f, flMaxHealth);
+
+						static const int nWidth = 2;
+						const int nHeight = (h + (flHealth < flMaxHealth ? 2 : 1));
+						const int nHeight2 = (h + 1);
+
+						const float ratio = (flHealth / flMaxHealth);
+						G::Draw.Rect(static_cast<int>(((x - nWidth) - 2)), static_cast<int>((y + nHeight - (nHeight * ratio))), nWidth, static_cast<int>((nHeight* ratio)), clrHealth);
+						if (Vars::ESP::Outline.m_Var)
+							G::Draw.OutlinedRect(static_cast<int>(((x - nWidth) - 2) - 1), static_cast<int>((y + nHeight - (nHeight * ratio)) - 1), nWidth + 2, static_cast<int>((nHeight* ratio) + 1), OutlineColor);
+
+						x += 1;
+					}
+
+					if (Vars::ESP::Buildings::Box.m_Var)
+					{
+						if (Vars::ESP::Buildings::Box.m_Var == 1)
+						{
+							int height = (h + 1); //don't ask me /shrug
+
+							G::Draw.OutlinedRect(x, y, w, height, clrTeam);
+							if (Vars::ESP::Outline.m_Var)
+								G::Draw.OutlinedRect((x - 1), (y - 1), (w + 2), (height + 2), OutlineColor);
+						}
+
+						else if (Vars::ESP::Buildings::Box.m_Var == 2)
+						{
+							G::Draw.CornerRect(x, y, w, h, 3, 5, clrTeam);
+							if (Vars::ESP::Outline.m_Var)
+								G::Draw.CornerRect((x - 1), (y - 1), (w + 2), (h + 2), 3, 5, OutlineColor);
+						}
+					}
+
+					break;
+				}
+
+				case ETFClassIds::CTFAmmoPack:
+				{
+					C_BaseEntity* pAmmoPack = static_cast<C_BaseEntity*>(pEntity);
+
+					Vector2D sPos;
+					if (!W2S(pAmmoPack->WorldSpaceCenter(), sPos))
+						break;
+
+					G::Draw.String(EFonts::ESP, sPos.x, sPos.y, { 204, 204, 204, 255 }, TXT_CENTERXY, L"ammo");
+
+					break;
+				}
+
+				case ETFClassIds::CBaseAnimating:
+				{
+					C_BaseEntity* pAnimated = static_cast<C_BaseEntity*>(pEntity);
+
+					const int nModelIndex = pAnimated->m_nModelIndex();
+
+					Vector2D sPos;
+					if (IsAmmo(nModelIndex) && W2S(pAnimated->WorldSpaceCenter(), sPos))
+					{
+						G::Draw.String(EFonts::ESP, sPos.x, sPos.y, { 204, 204, 204, 255 }, TXT_CENTERXY, L"ammo");
+						break;
+					}
+
+					if (IsHealth(nModelIndex) && W2S(pAnimated->WorldSpaceCenter(), sPos))
+					{
+						G::Draw.String(EFonts::ESP, sPos.x, sPos.y, { 204, 204, 204, 255 }, TXT_CENTERXY, L"health");
+						break;
+					}
+
+					break;
+				}
+
+				default: break;
 				}
 			}
 		}
 	}
+}
+
+bool CESP::IsAmmo(const int nModelIndex)
+{
+	size_t n; const size_t nMax = m_vecAmmo.size();
+	for (n = 0; n < nMax; n++)
+	{
+		if (m_vecAmmo[n] == nModelIndex)
+			return true;
+	}
+
+	return false;
+}
+
+bool CESP::IsHealth(const int nModelIndex)
+{
+	size_t n; const size_t nMax = m_vecHealth.size();
+	for (n = 0; n < nMax; n++)
+	{
+		if (m_vecHealth[n] == nModelIndex)
+			return true;
+	}
+
+	return false;
 }
