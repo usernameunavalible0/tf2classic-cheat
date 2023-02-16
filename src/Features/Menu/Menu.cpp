@@ -580,7 +580,7 @@ void CMenu::Run()
 				CheckBox(Vars::Aimbot::Enabled, L"Main Aimbot Switch");
 				//no one cares about hitbox customization
 				CheckBox(Vars::Aimbot::Autoshoot, L"Should aimbot automaticly shoot players?");
-				InputKey(Vars::Aimbot::AimKey);
+				InputKey(Vars::Aimbot::AimKey, false);
 				CheckBox(Vars::Aimbot::AimPlayer, L"Should we aim at players");
 				CheckBox(Vars::Aimbot::AimBuildings, L"Should we aim at buildings");
 				CheckBox(Vars::Aimbot::SilentAim, L"Should we enable silent aimbot?");
@@ -608,6 +608,9 @@ void CMenu::Run()
 			}
 			GroupBoxEnd(L"Player ESP", 180);
 
+			checkpoint.x += 180 + Vars::Menu::SpacingX;
+			m_LastWidget = checkpoint;
+
 			GroupBoxStart();
 			{
 				CheckBox(Vars::ESP::Buildings::Enabled, L"Building ESP Switch");
@@ -618,9 +621,6 @@ void CMenu::Run()
 				ComboBox(Vars::ESP::Buildings::Box, { {0, L"Off"}, {1, L"Basic Box"}, {2, L"Corners Only"} });
 			}
 			GroupBoxEnd(L"Building ESP", 180);
-
-			checkpoint.x += 180 + Vars::Menu::SpacingX;
-			m_LastWidget = checkpoint;
 
 			GroupBoxStart();
 			{
