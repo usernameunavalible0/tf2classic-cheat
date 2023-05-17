@@ -25,7 +25,7 @@ class C_BaseEntity : public IClientEntity
 public:
 	inline Vector WorldSpaceCenter()
 	{
-		float* flRet = VFunc_Get<float*(__thiscall*)(void*)>(this, 66u)(this);
+		float* flRet = VFunc_Get<float* (__thiscall*)(void*)>(this, 66u)(this);
 		Vector vRet = Vector(flRet[0], flRet[1], flRet[2]);
 		return vRet;
 	}
@@ -47,22 +47,12 @@ public:
 
 	inline bool IsAlive()
 	{
-		return VFunc_Get<bool(__thiscall*)(void*)>(this, 130u)(this);
+		return VFunc_Get<bool(__thiscall*)(void*)>(this, 132u)(this);
 	}
 
 	inline bool IsPlayer()
 	{
-		return VFunc_Get<bool(__thiscall*)(void*)>(this, 131u)(this);
-	}
-
-	inline bool IsNPC()
-	{
-		return VFunc_Get<bool(__thiscall*)(void*)>(this, 134u)(this);
-	}
-
-	inline bool IsNextBot()
-	{
-		return VFunc_Get<bool(__thiscall*)(void*)>(this, 135u)(this);
+		return VFunc_Get<bool(__thiscall*)(void*)>(this, 133u)(this);
 	}
 
 	M_NETVAR(GetFlags, int, "CBasePlayer", "m_fFlags");
@@ -80,9 +70,15 @@ public:
 	M_NETVAR(m_iFOV, int, "CBasePlayer", "m_iFOV");
 	M_NETVAR(m_nModelIndex, int, "CBaseEntity", "m_nModelIndex");
 
+	inline int SaveData(const char* const context, const int slot, const int type)
+	{
+		return reinterpret_cast<int(__thiscall*)(void*, const char*, int, int)>(g_Pattern.Find("client.dll", "55 8B EC 81 EC 90 ? ? ? A1 30 D5 6A ? 33 C5 89 45 FC 8B 45 08 53"))(this, context, slot, type);
+	}
+
 	inline C_BaseCombatWeapon* GetActiveWeapon()
 	{
-		CBaseHandle hHandle = *reinterpret_cast<CBaseHandle*>(reinterpret_cast<DWORD>(this) + 0x0CE0);
+		static const int nOffset = GetNetVar("CBaseCombatCharacter", "m_hActiveWeapon");
+		CBaseHandle hHandle = *reinterpret_cast<CBaseHandle*>(reinterpret_cast<DWORD>(this) + nOffset);
 		C_BaseCombatWeapon* pWeapon = reinterpret_cast<C_BaseCombatWeapon*>(I::ClientEntityList->GetClientEntityFromHandle(hHandle));
 		return pWeapon;
 	}
@@ -197,36 +193,6 @@ public:
 	{
 		return InCond(TF_COND_ZOOMED);
 	}
-
-	/*inline Vector EyePosition()
-	{
-		DYNVAR_RETURN(Vector, this, "DT_BasePlayer", "localdata", "m_vecViewOffset[0]") + GetAbsOrigin();
-	}
-
-	int GetFlags()
-	{
-		DYNVAR_RETURN(int, this, "DT_BasePlayer", "m_fFlags");
-	}
-
-	inline Vector GetCollideableMins()
-	{
-		DYNVAR_RETURN(Vector, this, "DT_BaseEntity", "m_Collision", "m_vecMins");
-	}
-
-	inline Vector GetCollideableMaxs()
-	{
-		DYNVAR_RETURN(Vector, this, "DT_BaseEntity", "m_Collision", "m_vecMaxs");
-	}
-
-	inline int GetHealth()
-	{
-		DYNVAR_RETURN(int, this, "DT_BaseObject", "m_iHealth");
-	}
-
-	inline int GetMaxHealth()
-	{
-		DYNVAR_RETURN(int, this, "DT_BaseObject", "m_iMaxHealth");
-	}*/
 };
 
 #endif

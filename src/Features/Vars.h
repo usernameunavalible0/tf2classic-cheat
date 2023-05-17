@@ -101,5 +101,6 @@ namespace Vars
 	namespace Misc
 	{
 		inline CVar<bool> Bunnyhop{ true, L"Bunnyhop" };
+		inline CVar<bool> NoSpread{ true, L"No Spread" };
 	}
 }

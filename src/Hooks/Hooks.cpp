@@ -4,6 +4,7 @@
 #include "../Features/Aimbot/Aimbot.h"
 #include "../Features/Menu/Menu.h"
 #include "../Features/Visuals/Visuals.h"
+#include "../Features/NoSpread/NoSpread.h"
 
 void H::Initialize()
 {
@@ -107,6 +108,9 @@ bool __stdcall H::CreateMoveHook(float frameTime, CUserCmd* cmd)
 			F::Misc.Bunnyhop(pLocal, cmd);
 
 		F::Aimbot.Run(pLocal, cmd);
+
+		// NoSpread patched :(
+		//F::Nospread.Think(cmd);
 	}
 
 	return false;

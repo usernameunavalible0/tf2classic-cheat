@@ -634,6 +634,7 @@ void CMenu::Run()
 			GroupBoxStart();
 			{
 				CheckBox(Vars::Misc::Bunnyhop, L"Enable automatic bunnyhopping?");
+				CheckBox(Vars::Misc::NoSpread, L"Should we enable bullet/projectile nospread?");
 			}
 			GroupBoxEnd(L"Misc", 210);
 		}
