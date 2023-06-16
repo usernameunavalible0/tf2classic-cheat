@@ -581,6 +581,8 @@ void CMenu::Run()
 				//no one cares about hitbox customization
 				CheckBox(Vars::Aimbot::Autoshoot, L"Should aimbot automaticly shoot players?");
 				InputKey(Vars::Aimbot::AimKey, false);
+				CheckBox(Vars::Aimbot::UseFOVRestrict, L"Should we restrict aimbot to specific fov?");
+				InputFloat(Vars::Aimbot::AimFov, 1.0f, 180.0f, 1.0f, L"%.0f");
 				CheckBox(Vars::Aimbot::AimPlayer, L"Should we aim at players");
 				CheckBox(Vars::Aimbot::AimBuildings, L"Should we aim at buildings");
 				CheckBox(Vars::Aimbot::SilentAim, L"Should we enable silent aimbot?");

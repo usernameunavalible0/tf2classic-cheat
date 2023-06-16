@@ -111,6 +111,12 @@ void CDraw::OutlinedRect(const int x, const int y, const int w, const int h, con
 	I::Surface->DrawOutlinedRect(x, y, x + w, y + h);
 }
 
+void CDraw::OutlinedCircle(const int x, const int y, const int radius, const int segments, const Color clr)
+{
+	I::Surface->DrawSetColor(clr);
+	I::Surface->DrawOutlinedCircle(x, y, radius, segments);
+}
+
 void CDraw::GradientRect(const int x, const int y, const int x1, const int y1, const Color& clrTop, const Color& clrBottom, const bool bHorizontal)
 {
 	I::Surface->DrawSetColor(clrTop);

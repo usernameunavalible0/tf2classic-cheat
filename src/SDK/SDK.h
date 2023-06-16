@@ -75,3 +75,19 @@ inline float RemapValClamped(float val, float A, float B, float C, float D)
 
 	return C + (D - C) * cVal;
 }
+
+inline float CalcFov(const Vector& src, const Vector& dst)
+{
+	Vector v_src = Vector();
+	AngleVectors(src, &v_src);
+
+	Vector v_dst = Vector();
+	AngleVectors(dst, &v_dst);
+
+	float result = RAD2DEG(acos(v_dst.Dot(v_src) / v_dst.LenghtSqr()));
+
+	if (!isfinite(result) || isinf(result) || isnan(result))
+		result = 0.0f;
+
+	return result;
+}

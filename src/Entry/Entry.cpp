@@ -9,7 +9,7 @@ void CGlobal_Entry::Load()
 	//Interfaces
 	{
 		I::Client = GetInterface<IBaseClientDLL>("VClient017", "client.dll");
-		I::ClientMode = **reinterpret_cast<void***>((*reinterpret_cast<unsigned int**>(I::Client))[10] + 5);
+		I::ClientMode = **reinterpret_cast<void***>((*reinterpret_cast<unsigned int**>(I::Client))[10] + 7);
 		I::ClientEntityList = GetInterface<IClientEntityList>("VClientEntityList003", "client.dll");
 		I::EngineClient = GetInterface<IVEngineClient>("VEngineClient013", "engine.dll");
 		I::EngineVGui = GetInterface<IEngineVGui>("VEngineVGui001", "engine.dll");

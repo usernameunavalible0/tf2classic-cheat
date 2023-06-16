@@ -403,3 +403,18 @@ inline void AngleVectors(const Vector& angles, Vector* forward, Vector* right, V
 		up->z = cr * cp;
 	}
 }
+
+inline void AngleVectors(const Vector& angles, Vector* forward)
+{
+	float sp, sy, cp, cy;
+
+	SinCos(DEG2RAD(angles.x), &sp, &cp);
+	SinCos(DEG2RAD(angles.y), &sy, &cy);
+
+	if (forward)
+	{
+		forward->x = cp * cy;
+		forward->y = cp * sy;
+		forward->z = -sp;
+	}
+}

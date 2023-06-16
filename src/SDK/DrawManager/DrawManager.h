@@ -42,6 +42,7 @@ public:
 	void Line(const int x, const int y, const int x1, const int y1, const Color& clr);
 	void Rect(const int x, const int y, const int w, const int h, const Color& clr);
 	void OutlinedRect(const int x, const int y, const int w, const int h, const Color& clr);
+	void OutlinedCircle(const int x, const int y, const int radius, const int segments, const Color clr);
 	void GradientRect(const int x, const int y, const int x1, const int y1, const Color& clrTop, const Color& clrBottom, const bool bHorizontal);
 	void CornerRect(const int x, const int y, const int w, const int h, const int _x, const int _y, const Color color);
 

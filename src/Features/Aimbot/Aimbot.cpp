@@ -132,7 +132,15 @@ int CAimbot::GetBestTarget(C_BaseEntity* pLocal, C_BaseCombatWeapon* pWeapon)
 			default: continue;
 		}
 
+		Vector vAngles; I::EngineClient->GetViewAngles(vAngles);
+		Vector vAngleTo; VectorAngles((vEntity - vLocal), vAngleTo);
+		ClampAngle(vAngleTo); //Do we even have to do this?
+
 		float flDistToTarget = (vLocal - vEntity).Lenght();
+		float flFOVTo = CalcFov(vAngles, vAngleTo);
+
+		if (Vars::Aimbot::UseFOVRestrict.m_Var && flFOVTo > Vars::Aimbot::AimFov.m_Var)
+			continue;
 
 		if (flDistToTarget < flDistToBest)
 		{

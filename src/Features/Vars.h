@@ -60,6 +60,8 @@ namespace Vars
 		inline CVar<bool> SilentAim{ true, L"Silent Aim" };
 		inline CVar<bool> IgnoreInvulnerable{ true, L"Ignore Invulnerable" };
 		inline CVar<bool> IgnoreCloaked{ true, L"Ignore Cloaked" };
+		inline CVar<bool> UseFOVRestrict{ true, L"Use Aim FOV"};
+		inline CVar<float> AimFov{ 15.f, L"FOV Amount"};
 	}
 
 	namespace ESP
